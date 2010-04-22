@@ -51,20 +51,26 @@ void kexception()
 {
   //static int i = 0;
   cause_reg_t cause;
+  char c;
 
   /* Make sure that we are here because of a timer interrupt. */
   cause.reg = kget_cause();
   //kdebug_assert(cause.field.exc == 0);    /* External interrupt */
   //kdebug_assert(cause.field.ip & 0x80);   /* Timer interrupt */
   
-  if (cause.field.ip & 0x80) {
+  if (cause.field.ip & 0x80) { //Timer interrupt
   /* Reload timer for another 100 ms (simulated time) */
     kload_timer(100 * timer_msec);
-    console_print_string("Timer interrupt!");
-  } else if(cause.field.ip & 4) {
-    console_print_string("Console interrupt!");
+    console_print_string("Timer interrupt!\n");
+  } else if(cause.field.ip & 4) { //Console interrupt
+    console_print_string("Console interrupt!\n");
+    c = console->rbr;
+    console_putc(c);
+    console_putc('\n');
     console->ier.field.etbei = 0;
-    kset_cause(~0x1000, 0);
+    //kset_cause(~0x1000, 0);
+  } else {
+    console_print_string("Unknown Interrupt!");
   }
 
 }
