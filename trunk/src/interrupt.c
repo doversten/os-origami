@@ -26,16 +26,16 @@ void kinit()
    * using the 'status_reg_t' type defined in 'mips4kc.h'.
    */
   and.reg = 0xFFFFFFFF;
-  and.field.exl = 0; // Normal level (not exception)
-  and.field.erl = 0; // Error level
-  and.field.um  = 0; // Kernel mode
+  and.field.exl = 0; 	// Normal level (not exception)
+  and.field.erl = 0;	// Error level
+  and.field.um  = 0; 	// Kernel mode
   and.field.im  = 0x84; // Disable all except HW interrupt 0 and timer
-  and.field.bev = 0; // Use normal exception vector (not bootsptrap)
+  and.field.bev = 0; 	// Use normal exception vector (not bootsptrap)
 
   or.reg  = 0;
-  or.field.ie   = 1;   // Enable interrupts
-  or.field.im   = 0x84;   // Enable HW interrupt 0 and timer
-  or.field.cu0  = 1;   // Coprocessor 0 usable
+  or.field.ie   = 1;   	// Enable interrupts
+  or.field.im   = 0x84;	// Enable HW interrupt 0 and timer 84
+  or.field.cu0  = 1;   	// Coprocessor 0 usable
 
   kset_sr(and.reg, or.reg);
 
@@ -51,7 +51,6 @@ void kexception()
 {
   //static int i = 0;
   cause_reg_t cause;
-  char c;
 
   /* Make sure that we are here because of a timer interrupt. */
   cause.reg = kget_cause();
@@ -61,14 +60,9 @@ void kexception()
   if (cause.field.ip & 0x80) { //Timer interrupt
   /* Reload timer for another 100 ms (simulated time) */
     kload_timer(100 * timer_msec);
-    console_print_string("Timer interrupt!\n");
+    //console_print_string("Timer interrupt!\n");
   } else if(cause.field.ip & 4) { //Console interrupt
-    console_print_string("Console interrupt!\n");
-    c = console->rbr;
-    console_putc(c);
-    console_putc('\n');
-    console->ier.field.etbei = 0;
-    //kset_cause(~0x1000, 0);
+    console_handle_interrupt();
   } else {
     console_print_string("Unknown Interrupt!");
   }

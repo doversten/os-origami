@@ -1,7 +1,8 @@
 #include <bounded_fifo.h>
+#include <types.h>
 
 /* bfifo_put: Inserts a character at the end of the queue. */
-static void bfifo_put(struct bounded_fifo* bfifo, uint8_t ch)
+void bfifo_put(struct bounded_fifo_t* bfifo, uint8_t ch)
 {
   /* Make sure the 'bfifo' pointer is not 0. */
   //kdebug_assert(bfifo != 0);
@@ -12,7 +13,7 @@ static void bfifo_put(struct bounded_fifo* bfifo, uint8_t ch)
 }
 
 /* bfifo_get: Returns a character removed from the front of the queue. */
-static uint8_t bfifo_get(struct bounded_fifo* bfifo)
+uint8_t bfifo_get(struct bounded_fifo_t* bfifo)
 {
   int i;
   uint8_t ch;
