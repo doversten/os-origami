@@ -39,18 +39,21 @@ do_boot: bin/boot
 
 #### RULES TO BUILD BINARIES FROM OBJECT FILES
 
-bin/boot: $(addprefix build/, boot.o console.o main_loop.o interrupt.o)
+bin/boot: $(addprefix build/, boot.o console.o main_loop.o interrupt.o bounded_fifo.o)
 	$(LD) $(ARCH) -o $@ $^
 
 #### Add dependency on headerfile of various tty.o files
 
-build/console.o: src/console.c include/console.h include/ns16550.h
+build/console.o: src/console.c include/console.h include/ns16550.h include/bounded_fifo.h
 	$(CC) $(ARCH) $(CFLAGS)  -c $< -o $@	
 
 build/main_loop.o: src/main_loop.c include/console.h
 	$(CC) $(ARCH) $(CFLAGS)  -c $< -o $@
 
 build/interrupt.o: src/interrupt.c include/console.h include/registers.h include/ns16550.h include/asm.h include/mips4kc.h
+	$(CC) $(ARCH) $(CFLAGS)  -c $< -o $@	
+
+build/bounded_fifo.o: src/bounded_fifo.c include/bounded_fifo.h include/types.h
 	$(CC) $(ARCH) $(CFLAGS)  -c $< -o $@	
 
 ###### GENERIC BUILD PATTERNS ########

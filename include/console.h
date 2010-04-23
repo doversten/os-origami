@@ -3,5 +3,6 @@
 
 void console_putc(char c);
 void console_print_string(const char* text);
+void console_handle_interrupt();
 
 #endif
