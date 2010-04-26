@@ -45,7 +45,9 @@ excn_stack:
 	.globl  kget_registers
 	.globl  kexception
 	.globl	kdebug_magic_break
+
 	.globl	main_loop
+	.globl	scheduler_create_process
 
 
 # -------------------------------------------------------------------------

@@ -36,6 +36,15 @@ void console_print_string(const char* text) {
   }
 }
 
+void console_print_int(uint32_t number) {
+  if (number < 10) {
+    console_putc('0' + number);
+  }else{
+    console_print_int(number/10);
+    console_putc('0' + number % 10);
+  }
+}
+
 void console_handle_interrupt() {
 
   char c;
