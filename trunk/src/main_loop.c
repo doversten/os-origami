@@ -43,7 +43,7 @@ console_print_string("                  | | | ||    /   | |  | | __ |  _  || |\\
 console_print_string("                  \\ \\_/ /| |\\ \\  _| |_ | |_\\ \\| | | || |  | | _| |_ \n");
 console_print_string("                   \\___/ \\_| \\_| \\___/  \\____/\\_| |_/\\_|  |_/ \\___/ \n");
                                                   
-console_print_string("Starup Motha Fucker\n");
+console_print_string("Starup\n");
   while(1) {}
 
 }

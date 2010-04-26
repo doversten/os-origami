@@ -1,8 +1,9 @@
-#include <console.h>
-#include <ns16550.h>
-#include <registers.h>
-#include <asm.h>
-#include <mips4kc.h>
+#include "console.h"
+#include "ns16550.h"
+#include "registers.h"
+#include "asm.h"
+#include "mips4kc.h"
+#include "scheduler.h"
 
 static registers_t regs;
 static volatile ns16550_t* const console = (ns16550_t*) 0xb80003f8;
@@ -10,6 +11,10 @@ static volatile ns16550_t* const console = (ns16550_t*) 0xb80003f8;
 void kinit()
 {
 
+  // Init scheduler stuff
+  scheduler_init();
+
+  // Init
   status_reg_t and, or;
 
   /* Setup storage-area for saving registers on exception. */
@@ -46,6 +51,18 @@ void kinit()
   console->mcr.field.out2 = 1;
 
 }
+
+
+//testkod
+
+void interrupt_foo() {
+
+  console_print_string("Loopin2'");
+
+  while(1) {};
+
+}
+
 
 void kexception()
 {
@@ -61,10 +78,20 @@ void kexception()
   /* Reload timer for another 100 ms (simulated time) */
     kload_timer(100 * timer_msec);
     console_print_string("Timer interrupt!\n");
+
+    //test
+    scheduler_create_process(interrupt_foo);
+
+
+
   } else if(cause.field.ip & 4) { //Console interrupt
     console_handle_interrupt();
   } else {
-    console_print_string("Unknown Interrupt!");
+    console_print_string("Unknown Interrupt: ");
+    console_print_int(cause.field.ip);
+    console_putc('\n');
+    console_print_int(cause.field.exc);
+    console_putc('\n');
   }
 
 }
