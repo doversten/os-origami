@@ -8,7 +8,12 @@ typedef struct
 {
   uint32_t pid;
   uint32_t priority;
-  uint8_t status;
+  union {
+      uint8_t ;
+      struct {
+          uint8_t ready : 1;  //Ready bit, 1 if process is ready to be executed 0 if it's blocked or pending some event.
+      } field;
+  } status;
   registers_t regs;
 
 } pcb_t;
