@@ -9,10 +9,10 @@ typedef struct
   uint32_t pid;
   uint32_t priority;
   union {
-      uint8_t ;
+      uint8_t value;
       struct {
-          uint8_t ready : 1;  //Ready bit, 1 if process is ready to be executed 0 if it's blocked or pending some event.
-	  uint8_t valid : 1   //Valid bit, 1 if PCB contains a ective process, 0 otherwise.
+       uint8_t ready : 1;  //Ready bit, 1 if process is ready to be executed 0 if it's blocked or pending some event.
+	  uint8_t empty : 1;  //Valid bit, 0 if PCB contains a ective process, 1 otherwise.
       } field;
   } status;
   registers_t regs;
