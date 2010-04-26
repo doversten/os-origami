@@ -60,7 +60,7 @@ void kexception()
   if (cause.field.ip & 0x80) { //Timer interrupt
   /* Reload timer for another 100 ms (simulated time) */
     kload_timer(100 * timer_msec);
-    //console_print_string("Timer interrupt!\n");
+    console_print_string("Timer interrupt!\n");
   } else if(cause.field.ip & 4) { //Console interrupt
     console_handle_interrupt();
   } else {
