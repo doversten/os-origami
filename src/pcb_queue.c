@@ -3,8 +3,6 @@
 #include "types.h"
 #include "console.h"
 
-
-
 int pcb_queue_add(pcb_queue_t queue, pcb_t *element) {
 	uint32_t i = 0;
 
@@ -51,7 +49,7 @@ int pcb_queue_remove(pcb_queue_t queue, uint32_t pid) {
 
 
 	for (i = 0; i < NUMBER_OF_PROCESSES; i++) {
-		if(queue[i] && queue[i]->pid == pid){		//är pcb och den pcb vi letar efter
+		if(queue[i] && queue[i]->pid == pid) {		//är pcb och den pcb vi letar efter
 			if(queue[i]->next){							//om det inte är den enda med denna prioritet
 				if(queue[i]->prev == queue[i]->next){ // precis två pcbs linkade
 					queue[i]->prev->next = queue[i]->next->prev = NULL;
@@ -60,12 +58,14 @@ int pcb_queue_remove(pcb_queue_t queue, uint32_t pid) {
 					queue[i]->next->prev = queue[i]->prev;
 				}
 			}
+			queue[i] = NULL;
 		}
 	}
 
 	return 1;
 
 }
+
 
 void pcb_queue_print(pcb_queue_t queue) {
 
@@ -75,16 +75,18 @@ void pcb_queue_print(pcb_queue_t queue) {
 	for (i = 0; i < NUMBER_OF_PROCESSES; i++) {
 		console_print_string("\n-----");
 		if(queue[i]) {
-			console_print_string("array_index=");
+			console_print_string("\narray_index=");
 			console_print_int(i);
 			console_print_string("\npid=");
 			console_print_int(queue[i]->pid);
-			console_print_string("\nnext=");
-			console_print_int((uint32_t)queue[i]->next);
-			console_print_string("\nprev=");
-			console_print_int((uint32_t)queue[i]->prev);
+			if(queue[i]->next) {
+				console_print_string("\nnext=");
+				console_print_int((uint32_t)queue[i]->next->pid);
+				console_print_string("\nprev=");
+				console_print_int((uint32_t)queue[i]->prev->pid);
+			}
 		} else {
-			console_print_string("array_index=");
+			console_print_string("\narray_index=");
 			console_print_int(i);
 			console_print_string("\nIngen PCB");
 		}
@@ -93,56 +95,55 @@ void pcb_queue_print(pcb_queue_t queue) {
 
 }
 
+void pcb_queue_test() {
 
-/*
+	pcb_queue_t q;
+	pcb_t pcb0;
+	pcb_t pcb1;
+	pcb_t pcb2;
+	pcb_t pcb3;
+	pcb_t pcb4;
+	pcb_t pcb5;
 
-void scheduler_add_to_ready(uint32_t pid) {
-  uint32_t i = 0;
-  while (i < NUMBER_OF_PROCESSES){
-    if(readyQueue[i] == NULL){
-      readyQueue[i] = &pcbArray[pid];
-      break;
-    }
+	pcb0.pid = 0;
+	pcb1.pid = 10;
+	pcb2.pid = 20;
+	pcb3.pid = 30;
+	pcb4.pid = 40;
+	pcb5.pid = 50;
 
-    i++;
-  }
-  return;
+
+	pcb0.priority = 1;
+	pcb1.priority = 1;
+	pcb2.priority = 2;
+	pcb3.priority = 3;
+	pcb4.priority = 1;
+	pcb5.priority = 2;
+
+	pcb_queue_add(q, &pcb0);
+	pcb_queue_add(q, &pcb1);
+	pcb_queue_add(q, &pcb2);
+	pcb_queue_add(q, &pcb3);
+	pcb_queue_add(q, &pcb4);
+	pcb_queue_add(q, &pcb5);
+
+	pcb_queue_print(q);
+
+   console_print_string("\nstartar dequeueing\n");
+
+	pcb_queue_remove(q, 10);
+	pcb_queue_remove(q, 20);
+	pcb_queue_remove(q, 30);
+
+	pcb_queue_print(q);
+
+   console_print_string("\nstartar dequeueing\n");
+
+	pcb2.priority = 2;
+
+	pcb_queue_add(q, &pcb2);
+
+
+	pcb_queue_print(q);
 
 }
-void scheduler_add_to_block(uint32_t pid) {
-  uint32_t i = 0;
-  while (i < NUMBER_OF_PROCESSES){
-    if(blockQueue[i] == NULL){
-      blockQueue[i] = &pcbArray[pid];
-      break;
-    }
-
-    i++;
-  }
-  return;
-
-}
-void scheduler_remove_from_ready(uint32_t pid) {
-  uint32_t i = 0;
-  while (i < NUMBER_OF_PROCESSES){
-    if(readyQueue[i] != NULL && readyQueue[i]-> pid == pid){
-      readyQueue[i] = NULL;
-    }
-
-    i++;
-  }
-  return;
-
-}
-void scheduler_remove_from_block(uint32_t pid) {
-  uint32_t i = 0;
-  while (i < NUMBER_OF_PROCESSES){
-    if(blockQueue[i] != NULL && blockQueue[i]-> pid == pid){
-      blockQueue[i] = NULL;
-    }
-
-    i++;
-  }
-  return;
-}
-*/
