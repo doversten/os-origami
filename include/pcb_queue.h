@@ -6,9 +6,9 @@
 #define NUMBER_OF_PROCESSES 16
 #define NULL 0
 
-typedef pcb_t *pcb_queue[NUMBER_OF_PROCESSES];
+typedef pcb_t *pcb_queue_t[NUMBER_OF_PROCESSES];
 
-int pcb_queue_add(pcb_queue queue, pcb *element);
-int pcb_queue_remove(pcb_queue queue, uint32_t pid);
+int pcb_queue_add(pcb_queue_t queue, pcb_t *element);
+int pcb_queue_remove(pcb_queue_t queue, uint32_t pid);
 
 #endif

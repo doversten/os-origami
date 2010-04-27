@@ -79,8 +79,8 @@ void kexception()
 		kload_timer(100 * timer_msec);
 		console_print_string("Timer interrupt!\n");
 
-		//test
-		scheduler_create_process(interrupt_foo);
+		//TODO test
+		//scheduler_create_process(interrupt_foo);
 
 
 
