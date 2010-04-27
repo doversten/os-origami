@@ -4,7 +4,7 @@
 #include "types.h"
 #include "registers.h"
 
-typedef struct
+typedef struct pcb_t
 {
   uint32_t pid;
   uint32_t priority;
@@ -16,6 +16,8 @@ typedef struct
       } field;
   } status;
   registers_t regs;
+  struct pcb_t *next;
+  struct pcb_t *prev;
 
 } pcb_t;
 
