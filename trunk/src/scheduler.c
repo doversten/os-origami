@@ -3,14 +3,14 @@
 #include "console.h"
 #include "asm.h"
 #include "types.h"
-
-#define NUMBER_OF_PROCESSES 16
-#define NULL 0
+#include "pcb_queue.h"
 
 static pcb_t pcbArray[NUMBER_OF_PROCESSES];
 //static pcb_t *readyQueue[NUMBER_OF_PROCESSES];
 //static pcb_t *blockQueue[NUMBER_OF_PROCESSES];
 static stack_t stackArray[NUMBER_OF_PROCESSES];
+
+/*
 
 void scheduler_foo() {
 
@@ -44,6 +44,8 @@ void scheduler_remove(uint32_t pid) {
   return;
 }
 
+*/
+
 void scheduler_init() {
   uint32_t i = 0;
   while (i < NUMBER_OF_PROCESSES){
@@ -72,7 +74,7 @@ int scheduler_create_process(void (*code)()) { //const *void code
   pcbArray[pid].regs.epc_reg = (uint32_t) code; //Set exception program counter to start of program 
   pcbArray[pid].regs.sp_reg = (uint32_t) &stackArray[pid].memory[PROGRAM_STACK_START]; //Set stackpointer to highest adress of program stack
   pcbArray[pid].status.field.ready = 1; //Set process to be ready to execute
-  scheduler_add_to_ready(pid);  // Add the process to the ready queue
+  //scheduler_add_to_ready(pid);  // Add the process to the ready queue
 
   //rest code:
   //kset_registers(&pcbArray[pid].regs);

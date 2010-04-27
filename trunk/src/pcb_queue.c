@@ -5,7 +5,7 @@
 
 
 
-int pcb_queue_add(pcb_queue queue, pcb *element) {
+int pcb_queue_add(pcb_queue_t queue, pcb_t *element) {
 	uint32_t i = 0;
 
 	element->next = NULL;
@@ -27,8 +27,8 @@ int pcb_queue_add(pcb_queue queue, pcb *element) {
 		if(!queue[i] || queue[i] == element) { continue; }
 		if (queue[i]->priority == element->priority) {
 			if (!queue[i]->next){
-				element->next = queue[i]
-				element->prev = queue[i]
+				element->next = queue[i];
+				element->prev = queue[i];
 				queue[i]->next = element;
 				queue[i]->prev = element;
 			}else {
@@ -45,7 +45,7 @@ int pcb_queue_add(pcb_queue queue, pcb *element) {
 
 }
 
-int pcb_queue_remove(pcb_queue queue, uint32_t pid) {
+int pcb_queue_remove(pcb_queue_t queue, uint32_t pid) {
 
 	uint32_t i = 0;
 
@@ -54,7 +54,7 @@ int pcb_queue_remove(pcb_queue queue, uint32_t pid) {
 		if(queue[i] && queue[i]->pid == pid){		//är pcb och den pcb vi letar efter
 			if(queue[i]->next){							//om det inte är den enda med denna prioritet
 				if(queue[i]->prev == queue[i]->next){ // precis två pcbs linkade
-					queue[i]->prev->next = queue[i]->next->prev = null;
+					queue[i]->prev->next = queue[i]->next->prev = NULL;
 				}else{
 					queue[i]->prev->next = queue[i]->next;
 					queue[i]->next->prev = queue[i]->prev;
@@ -67,23 +67,28 @@ int pcb_queue_remove(pcb_queue queue, uint32_t pid) {
 
 }
 
-void pcb_queue_print(pcb_queue queue) {
+void pcb_queue_print(pcb_queue_t queue) {
 
 	uint32_t i = 0;
 
 
 	for (i = 0; i < NUMBER_OF_PROCESSES; i++) {
-		console_print_string("-----");
+		console_print_string("\n-----");
 		if(queue[i]) {
-			console_print_string("pid=");
+			console_print_string("array_index=");
 			console_print_int(i);
-			console_print_string("\n
+			console_print_string("\npid=");
+			console_print_int(queue[i]->pid);
+			console_print_string("\nnext=");
+			console_print_int((uint32_t)queue[i]->next);
+			console_print_string("\nprev=");
+			console_print_int((uint32_t)queue[i]->prev);
 		} else {
-			console_print_string("
+			console_print_string("array_index=");
 			console_print_int(i);
-			console_print_string("Ingen PCB");
+			console_print_string("\nIngen PCB");
 		}
-		console_print_string("-----");
+		console_print_string("\n-----");
 	}
 
 }

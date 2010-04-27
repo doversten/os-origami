@@ -165,7 +165,7 @@ copyloop:
 	la gp, 0x80000000
 	la sp, init_stack-32
 	jal  kinit
-        j main_loop
+   j main_loop
 
 # -------------------------------------------------------------------------
 # On exception: jump to exception handler.
