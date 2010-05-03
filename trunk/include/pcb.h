@@ -3,9 +3,12 @@
 
 #include "types.h"
 #include "registers.h"
+#include "stack.h"
 
 #define NUMBER_OF_PROCESSES 16
 #define NULL 0
+
+
 
 typedef struct pcb_t
 {
@@ -24,5 +27,17 @@ typedef struct pcb_t
 	stack_t *stack;
 
 } pcb_t;
+
+
+
+
+
+static volatile pcb_t pcbArray[NUMBER_OF_PROCESSES];
+static volatile stack_t stackArray[NUMBER_OF_PROCESSES];
+
+
+void pcb_init();
+pcb_t *pcb_get();
+void pcb_free(pcb_t *pcb);
 
 #endif

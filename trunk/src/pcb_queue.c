@@ -66,7 +66,30 @@ int pcb_queue_remove(pcb_queue_t queue, uint32_t pid) {
 
 }
 
+pcb_t *pcb_queue_get_highest_priority(pcb_queue_t queue) {
 
+	uint32_t i;
+	pcb_t *current_highest = NULL;
+
+	for (i = 0; i < NUMBER_OF_PROCESSES; i++) {
+		if (queue[i]) {																					//Check if space in array is not-empty
+			if ( !current_highest || current_highest->priority > queue[i]->priority) {
+								//Check if we have a higher priotity or if current i lower then the highest
+				console_print_int(current_highest);
+
+				console_print_int(queue[i]);
+				current_highest = queue[i];
+			}
+		}
+	}
+	console_print_string("Vi har gjort en jamforing och retunerar nu: ");
+	console_print_int(current_highest);
+	console_print_string("\n");
+	return current_highest;
+}
+
+
+/* TEST CODE*/
 void pcb_queue_print(pcb_queue_t queue) {
 
 	uint32_t i = 0;
@@ -95,21 +118,6 @@ void pcb_queue_print(pcb_queue_t queue) {
 
 }
 
-pcb_t *pcb_queue_get_highest_priority(pcb_queue_t queue) {
-
-	uint32_t i;
-	pcb_t *current_highest = NULL;
-
-	for (i = 0; i < NUMBER_OF_PROCESSES; i++) {
-		if (queue[i]) {																					//Check if space in array is not-empty
-			if ( !current_highest || current_highest->priority > queue[i]->priority) {
-																//Check if we have a higher priotity or if current i lower then the highest
-				current_highest = queue[i];
-			}
-		}
-	}
-	return current_highest;
-}
 
 
 
