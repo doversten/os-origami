@@ -3,9 +3,6 @@
 
 #include "pcb.h"
 
-#define NUMBER_OF_PROCESSES 16
-#define NULL 0
-
 typedef pcb_t *pcb_queue_t[NUMBER_OF_PROCESSES];
 
 int pcb_queue_add(pcb_queue_t queue, pcb_t *element);

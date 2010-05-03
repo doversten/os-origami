@@ -5,56 +5,7 @@
 #include "types.h"
 #include "pcb_queue.h"
 
-static pcb_t pcbArray[NUMBER_OF_PROCESSES];
-//static pcb_t *readyQueue[NUMBER_OF_PROCESSES];
-//static pcb_t *blockQueue[NUMBER_OF_PROCESSES];
-static stack_t stackArray[NUMBER_OF_PROCESSES];
-
-/*
-
-void scheduler_foo() {
-
-  console_print_string("Loopin'");
-
-  while(1) {};
-
-}
-
-void scheduler_next() {
-}
-
-
-void scheduler_block(uint32_t pid) {
-  if (pid >= NUMBER_OF_PROCESSES) return;
-  scheduler_remove_from_ready(pid);
-  scheduler_add_to_block(pid);
-  return;
-}
-
-void scheduler_unblock(uint32_t pid) {
-  if (pid >= NUMBER_OF_PROCESSES) return;
-  scheduler_remove_from_block(pid);
-  scheduler_add_to_ready(pid);
-  return;
-}
-
-void scheduler_remove(uint32_t pid) {
-  scheduler_remove_from_block(pid);
-  scheduler_remove_from_ready(pid);
-  return;
-}
-
-*/
-
-void scheduler_init() {
-  uint32_t i = 0;
-  while (i < NUMBER_OF_PROCESSES){
-    pcbArray[i].pid = i;
-    pcbArray[i].status.field.empty = 1;
-    i++;
-  }
-  
-}
+static pcb_t *current;
 
 int scheduler_create_process(void (*code)()) { //const *void code
 
@@ -85,7 +36,6 @@ int scheduler_create_process(void (*code)()) { //const *void code
 
 void scheduler_handle_interrupt() {
 
-  
-  //kset_registers()
+//kset_registers(current->regs)
 
 }

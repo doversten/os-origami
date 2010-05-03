@@ -6,8 +6,8 @@
 int pcb_queue_add(pcb_queue_t queue, pcb_t *element) {
 	uint32_t i = 0;
 
-	element->next = NULL;
-	element->prev = NULL;
+	element->next = element;
+	element->prev = element;
 
 
 	if (!queue) { return 0; }
@@ -24,17 +24,17 @@ int pcb_queue_add(pcb_queue_t queue, pcb_t *element) {
 	for (i = 0; i < NUMBER_OF_PROCESSES; i++) {
 		if(!queue[i] || queue[i] == element) { continue; }
 		if (queue[i]->priority == element->priority) {
-			if (!queue[i]->next){
+			/*if (!queue[i]->next){
 				element->next = queue[i];
 				element->prev = queue[i];
 				queue[i]->next = element;
 				queue[i]->prev = element;
-			}else {
+			}else {*/
 				element->next = queue[i]->next;
 				element->prev = queue[i];
 				queue[i]->next = element;
 				element->next->prev = element;
-			}
+			/*}*/
 			break;
 		}
 	}
@@ -50,14 +50,14 @@ int pcb_queue_remove(pcb_queue_t queue, uint32_t pid) {
 
 	for (i = 0; i < NUMBER_OF_PROCESSES; i++) {
 		if(queue[i] && queue[i]->pid == pid) {		//är pcb och den pcb vi letar efter
-			if(queue[i]->next){							//om det inte är den enda med denna prioritet
+			/*if(queue[i]->next){							//om det inte är den enda med denna prioritet
 				if(queue[i]->prev == queue[i]->next){ // precis två pcbs linkade
 					queue[i]->prev->next = queue[i]->next->prev = NULL;
-				}else{
+				}else{*/
 					queue[i]->prev->next = queue[i]->next;
 					queue[i]->next->prev = queue[i]->prev;
-				}
-			}
+				/*}*/
+			/*}*/
 			queue[i] = NULL;
 		}
 	}
@@ -94,6 +94,24 @@ void pcb_queue_print(pcb_queue_t queue) {
 	}
 
 }
+
+pcb_t *pcb_queue_get_highest_priority(pcb_queue_t queue) {
+
+	uint32_t i;
+	pcb_t *current_highest = NULL;
+
+	for (i = 0; i < NUMBER_OF_PROCESSES; i++) {
+		if (queue[i]) {																					//Check if space in array is not-empty
+			if ( !current_highest || current_highest->priority > queue[i]->priority) {
+																//Check if we have a higher priotity or if current i lower then the highest
+				current_highest = queue[i];
+			}
+		}
+	}
+	return current_highest;
+}
+
+
 
 void pcb_queue_test() {
 
@@ -145,5 +163,10 @@ void pcb_queue_test() {
 
 
 	pcb_queue_print(q);
+
+	console_print_string("Highest:\n");
+	console_print_int(pcb_queue_get_highest_priority(q)->pid);
+	console_print_string("\n");
+	console_print_int(pcb_queue_get_highest_priority(q)->priority);
 
 }
