@@ -27,7 +27,7 @@ LD=$(MIPS_PREFIX)-ld -Ttext 80020000
 
 # Path to Simics installation
 
-SIMICS=/home/lisu9273/simics-workspace 
+SIMICS=/home/thno6071/simics-workspace 
 
 
 
@@ -47,7 +47,7 @@ bin/boot: $(addprefix build/, boot.o console.o main_loop.o interrupt.o bounded_f
 build/console.o: src/console.c include/console.h include/ns16550.h include/bounded_fifo.h
 	$(CC) $(ARCH) $(CFLAGS)  -c $< -o $@	
 
-build/main_loop.o: src/main_loop.c include/console.h
+build/main_loop.o: src/main_loop.c include/console.h include/scheduler.h  include/pcb.h
 	$(CC) $(ARCH) $(CFLAGS)  -c $< -o $@
 
 build/interrupt.o: src/interrupt.c include/console.h include/registers.h include/ns16550.h include/asm.h include/mips4kc.h
@@ -56,7 +56,7 @@ build/interrupt.o: src/interrupt.c include/console.h include/registers.h include
 build/bounded_fifo.o: src/bounded_fifo.c include/bounded_fifo.h include/types.h
 	$(CC) $(ARCH) $(CFLAGS)  -c $< -o $@
 
-build/scheduler.o: src/scheduler.c include/pcb.h include/stack.h
+build/scheduler.o: src/scheduler.c include/pcb.h include/stack.h include/pcb_queue.h
 	$(CC) $(ARCH) $(CFLAGS)  -c $< -o $@
 
 build/pcb_queue.o: src/pcb_queue.c include/pcb.h include/pcb_queue.h include/types.h include/console.h

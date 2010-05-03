@@ -2,8 +2,6 @@
 #include "types.h"
 #include "stack.h"
 
-static pcb_t pcbArray[NUMBER_OF_PROCESSES];
-static stack_t stackArray[NUMBER_OF_PROCESSES];
 
 void pcb_init() {
 
@@ -30,6 +28,7 @@ pcb_t *pcb_get() {
 	return NULL;
 
 }
+
 
 void pcb_free(pcb_t *pcb) {
 

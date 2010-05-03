@@ -1,4 +1,27 @@
-#include <console.h>
+#include "console.h"
+#include "scheduler.h"
+#include "pcb.h"
+
+void interrupt_foo2() {
+
+	console_print_string("Loopin2'");
+
+	while(1) {
+		console_print_string("b");
+	};
+
+}
+
+void interrupt_foo() {
+
+	console_print_string("Loopin'");
+
+	while(1) {
+		console_print_string("a");
+	};
+
+}
+
 
 void main_loop() {
 
@@ -46,8 +69,17 @@ console_print_string("                   \\___/ \\_| \\_| \\___/  \\____/\\_| |_
 console_print_string("Starup\n");
 
 //todo
-pcb_queue_test();
+//pcb_queue_test();
+
+
+if (scheduler_create_process(interrupt_foo,1)) {
+	console_print_string("lyckades att skapa men fungerar det?");
+}else {
+	console_print_string("Lyckades inte, buhähähähäh");
+}
 
 while(1) {}
 
 }
+
+

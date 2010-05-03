@@ -12,7 +12,7 @@ void kinit()
 {
 
 	// Init scheduler stuff
-	scheduler_init();
+	//scheduler_init();
 
 	// Init
 	status_reg_t and, or;
@@ -50,18 +50,13 @@ void kinit()
 	/* Some obscure bit that need to be set for UART interrupts to work. */
 	console->mcr.field.out2 = 1;
 
+
 }
 
 
 //testkod
 
-void interrupt_foo() {
 
-	console_print_string("Loopin2'");
-
-	while(1) {};
-
-}
 
 
 void kexception()
@@ -78,9 +73,9 @@ void kexception()
 	/* Reload timer for another 100 ms (simulated time) */
 		kload_timer(100 * timer_msec);
 		console_print_string("Timer interrupt!\n");
-
+		scheduler_handle_interrupt();
 		//TODO test
-		//scheduler_create_process(interrupt_foo);
+
 
 
 
