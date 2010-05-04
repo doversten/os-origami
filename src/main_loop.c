@@ -1,27 +1,43 @@
 #include "console.h"
 #include "scheduler.h"
 #include "pcb.h"
+#include "api.h"
 
-void interrupt_foo2() {
+void prog1() {
 
-	console_print_string("Loopin2'");
+	int i;
+	for(i = 0; i < 100000; i++) {
+		if(!(i%10000))
+			og_print("prog1");
+	}
 
-	while(1) {
-		console_print_string("b");
-	};
-
-}
-
-void interrupt_foo() {
-
-	console_print_string("Loopin'");
-
-	while(1) {
-		console_print_string("a");
-	};
+	og_exit(1);
 
 }
 
+void prog2() {
+
+	int i;
+	for(i = 0; i < 100000; i++) {
+		if(!(i%10000))
+			og_print("prog2");
+	}
+
+	og_exit(1);
+
+}
+
+void prog3() {
+
+	int i;
+	for(i = 0; i < 100000; i++) {
+		if(!(i%10000))
+			og_print("prog3");
+	}
+
+	og_exit(1);
+
+}
 
 void main_loop() {
 
@@ -45,7 +61,7 @@ console_print_string("........................,77777,.....,777777777777777777777
 console_print_string(".........................777777,...,7777777777777777777777,.....................\n");
 console_print_string("..........................77777I.,,,7777777777777777777777......................\n");
 console_print_string("..........................:77777=,,7??7777777777777777777?,.....................\n");
-console_print_string("...........................777777,,?77777I7777777777777I??=++I..................\n");
+console_print_string("...........................777777,,?77777I7777777777777II?=++I..................\n");
 console_print_string("...........................,II77I77777777777777777777?IIII:777..................\n");
 console_print_string("..........................,,,?777777777777777777777?IIIIII=777..................\n");
 console_print_string("..................?IIIIIIII7777777777777777777777?IIIIIII..=77,.................\n");
@@ -72,11 +88,12 @@ console_print_string("Starup\n");
 //pcb_queue_test();
 
 
-if (scheduler_create_process(interrupt_foo,1)) {
-	console_print_string("lyckades att skapa men fungerar det?");
-}else {
-	console_print_string("Lyckades inte, buhähähähäh");
+if(0xFFFFFFFF == -1){
+	console_print_string("jag hade rätt");
 }
+scheduler_create_process(prog1,3);
+scheduler_create_process(prog2,3);
+scheduler_create_process(prog3,2);
 
 while(1) {}
 

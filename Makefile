@@ -27,7 +27,8 @@ LD=$(MIPS_PREFIX)-ld -Ttext 80020000
 
 # Path to Simics installation
 
-SIMICS=/home/thno6071/simics-workspace 
+SIMICS=/home/lisu9273/simics-workspace 
+#SIMICS=/home/thno6071/simics-workspace 
 
 
 
@@ -39,7 +40,7 @@ do_boot: bin/boot
 
 #### RULES TO BUILD BINARIES FROM OBJECT FILES
 
-bin/boot: $(addprefix build/, boot.o console.o main_loop.o interrupt.o bounded_fifo.o scheduler.o pcb_queue.o)
+bin/boot: $(addprefix build/, boot.o syscall.o console.o main_loop.o interrupt.o bounded_fifo.o scheduler.o pcb_queue.o pcb.o api.o)
 	$(LD) $(ARCH) -o $@ $^
 
 #### Add dependency on headerfile of various tty.o files
@@ -50,7 +51,7 @@ build/console.o: src/console.c include/console.h include/ns16550.h include/bound
 build/main_loop.o: src/main_loop.c include/console.h include/scheduler.h  include/pcb.h
 	$(CC) $(ARCH) $(CFLAGS)  -c $< -o $@
 
-build/interrupt.o: src/interrupt.c include/console.h include/registers.h include/ns16550.h include/asm.h include/mips4kc.h
+build/interrupt.o: src/interrupt.c include/console.h include/registers.h include/ns16550.h include/asm.h include/mips4kc.h include/syscall.h
 	$(CC) $(ARCH) $(CFLAGS)  -c $< -o $@	
 
 build/bounded_fifo.o: src/bounded_fifo.c include/bounded_fifo.h include/types.h
@@ -60,6 +61,12 @@ build/scheduler.o: src/scheduler.c include/pcb.h include/stack.h include/pcb_que
 	$(CC) $(ARCH) $(CFLAGS)  -c $< -o $@
 
 build/pcb_queue.o: src/pcb_queue.c include/pcb.h include/pcb_queue.h include/types.h include/console.h
+	$(CC) $(ARCH) $(CFLAGS)  -c $< -o $@
+
+build/pcb.o: src/pcb.c include/pcb.h include/types.h include/stack.h
+	$(CC) $(ARCH) $(CFLAGS)  -c $< -o $@
+
+build/api.o: src/api.c include/pcb.h include/syscall.h include/api.h include/console.h include/scheduler.h
 	$(CC) $(ARCH) $(CFLAGS)  -c $< -o $@
 
 ###### GENERIC BUILD PATTERNS ########
