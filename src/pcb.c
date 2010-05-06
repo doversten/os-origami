@@ -7,6 +7,8 @@ static volatile stack_t stackArray[NUMBER_OF_PROCESSES];
 
 pcb_t *pcb_get_with_pid(uint32_t pid) {
 
+	if(pid >= NUMBER_OF_PROCESSES)
+		return NULL;
 	return (pcb_t*) &pcbArray[pid];
 }
 

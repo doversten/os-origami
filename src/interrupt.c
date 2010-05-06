@@ -101,9 +101,9 @@ void kexception()
 	} else {
 		console_print_string("Unknown Interrupt: ");
 		console_print_int(cause.field.ip);
-		console_putc('\n');
+		console_print_string("\n");
 		console_print_int(cause.field.exc);
-		console_putc('\n');
+		console_print_string("\n");
 	}
 
 }

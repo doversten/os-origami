@@ -5,33 +5,34 @@
 
 void prog1() {
 
-	while(1){}
+	char test[5];
+
+	while (1) {
+
+		og_print_string("Origami1> ");
+		while(og_read_line(test, 5)){}
+		og_print_string("Fagel 1 viskar: ");
+		og_print_string(test);
+		og_print_string("\n");
+	}
 
 }
 
 void prog2() {
 
-	int i;
-	for(i = 0; i < 100000; i++) {
-		if(!(i%10000))
-			og_print("prog2");
-	}
+	char test[5];
 
-	return og_exit(1);
+	while (1) {
+
+		og_print_string("Origami2> ");
+		while(og_read_line(test, 5)){}
+			og_print_string("Fagel 2 viskar: ");
+			og_print_string(test);
+			og_print_string("\n");
+	}
 
 }
 
-void prog3() {
-
-	int i;
-	for(i = 0; i < 100000; i++) {
-		if(!(i%10000))
-			og_print("prog3");
-	}
-
-	return og_exit(1);
-
-}
 
 void main_loop() {
 
@@ -89,11 +90,12 @@ scheduler_create_process(prog1,3);
 scheduler_create_process(prog2,3);
 scheduler_create_process(prog3,2);*/
 
-int i;
-for(i = 0; i < 20; i++) {
-	console_print_int(scheduler_create_process(prog1, 1));
-	console_print_string("\n");
-}
+
+	//console_print_int(scheduler_create_process(prog1, 1));
+	//console_print_int(scheduler_create_process(prog2, 1));
+
+scheduler_create_process(prog1, 1);
+scheduler_create_process(prog2, 1);
 
 while(1) {}
 

@@ -10,6 +10,14 @@ static pcb_t *current = NULL;
 static pcb_queue_t pcb_ready;
 static pcb_queue_t pcb_block;
 
+pcb_t *scheduler_get_current_pcb() {
+	return current;
+}
+
+uint32_t scheduler_get_current_pid() {
+	return current->pid;
+}
+
 int scheduler_kill(uint32_t pid, uint32_t exit_code) {
 
 	// Get pcb
@@ -77,6 +85,44 @@ int scheduler_create_process(void (*code)(),uint32_t priority) { //const *void c
 
 	return new_pcb->pid; //successcode
 }
+
+
+int scheduler_block(uint32_t pid) {
+
+	pcb_t *pcb =pcb_get_with_pid(pid);
+
+	if (!pcb || pcb->status.field.empty) {
+		return -1;
+	} 
+
+	pcb_queue_remove(pcb_ready, pcb->pid);
+	pcb_queue_add(pcb_block, pcb);
+
+	current = NULL;
+	scheduler_handle_interrupt();
+	
+	return 0;
+
+}
+
+int scheduler_unblock(uint32_t pid) {
+
+	pcb_t *pcb =pcb_get_with_pid(pid);
+
+	if (!pcb || pcb->status.field.empty) {
+		return -1;
+	} 
+
+	pcb_queue_remove(pcb_block, pcb->pid);
+	pcb_queue_add(pcb_ready, pcb);
+
+	current = NULL;
+	scheduler_handle_interrupt();
+
+	return 0;
+
+}
+
 
 void scheduler_handle_interrupt() {
 	// If there is no current running process choose the highest priority from the ready queue
