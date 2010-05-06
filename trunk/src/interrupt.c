@@ -88,8 +88,8 @@ void kexception()
 		console_handle_interrupt();
 	} else if(cause.field.exc == 8) {
 		reg = kget_registers();
-		/* Handle the system call (see syscall.S). */
-		syscall_handle_interrupt(reg);
+		// Handle the system call (see syscall.S) and save return value
+		reg->v_reg[0] = syscall_handle_interrupt(reg);
 
 		/* Return from exception to instruction following syscall. */
 		reg->epc_reg += 4;

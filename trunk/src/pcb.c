@@ -8,7 +8,6 @@ static volatile stack_t stackArray[NUMBER_OF_PROCESSES];
 pcb_t *pcb_get_with_pid(uint32_t pid) {
 
 	return (pcb_t*) &pcbArray[pid];
-
 }
 
 void pcb_init() {
@@ -20,7 +19,6 @@ void pcb_init() {
 		pcbArray[i].status.field.empty = 1;
 		pcbArray[i].stack_start = (uint32_t) &stackArray[i].memory[PROGRAM_STACK_START];
 	}
-
 }
 
 pcb_t *pcb_get() {
@@ -34,12 +32,10 @@ pcb_t *pcb_get() {
 	}
 
 	return NULL;
-
 }
 
 
 void pcb_free(pcb_t *pcb) {
 
 	pcb->status.field.empty = 1;
-
 }
