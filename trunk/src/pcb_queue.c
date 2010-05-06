@@ -3,9 +3,30 @@
 #include "types.h"
 #include "console.h"
 
-int pcb_queue_add(pcb_queue_t queue, pcb_t *element) {
+int pcb_queue_remove(pcb_queue_t queue, uint32_t pid) {
+
 	uint32_t i = 0;
 
+	for (i = 0; i < NUMBER_OF_PROCESSES; i++) {
+		//check if it is a PCB and the PCB we looking for.
+		if(queue[i] && queue[i]->pid == pid) {
+			// Link together the previus and next element in the 'chain'
+			queue[i]->prev->next = queue[i]->next;
+			queue[i]->next->prev = queue[i]->prev;
+			queue[i] = NULL;
+		}
+	}
+
+	return 0;
+
+}
+
+int pcb_queue_add(pcb_queue_t queue, pcb_t *element) {
+
+	uint32_t i = 0;
+
+	pcb_queue_remove(queue, element->pid);  //take away any copy of the elemnt in the queue.
+	
 	element->next = element;
 	element->prev = element;
 
@@ -32,25 +53,7 @@ int pcb_queue_add(pcb_queue_t queue, pcb_t *element) {
 		}
 	}
 
-	return 1;
-
-}
-
-int pcb_queue_remove(pcb_queue_t queue, uint32_t pid) {
-
-	uint32_t i = 0;
-
-	for (i = 0; i < NUMBER_OF_PROCESSES; i++) {
-		//check if it is a PCB and the PCB we looking for.
-		if(queue[i] && queue[i]->pid == pid) {
-			// Link together the previus and next element in the 'chain'
-			queue[i]->prev->next = queue[i]->next;
-			queue[i]->next->prev = queue[i]->prev;
-			queue[i] = NULL;
-		}
-	}
-
-	return 1;
+	return 0;
 
 }
 
