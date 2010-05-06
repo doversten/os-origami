@@ -5,13 +5,7 @@
 
 void prog1() {
 
-	int i;
-	for(i = 0; i < 100000; i++) {
-		if(!(i%10000))
-			og_print("prog1");
-	}
-
-	og_exit(1);
+	while(1){}
 
 }
 
@@ -23,7 +17,7 @@ void prog2() {
 			og_print("prog2");
 	}
 
-	og_exit(1);
+	return og_exit(1);
 
 }
 
@@ -35,7 +29,7 @@ void prog3() {
 			og_print("prog3");
 	}
 
-	og_exit(1);
+	return og_exit(1);
 
 }
 
@@ -88,12 +82,18 @@ console_print_string("Starup\n");
 //pcb_queue_test();
 
 
-if(0xFFFFFFFF == -1){
+/*if(0xFFFFFFFF == -1){
 	console_print_string("jag hade rätt");
 }
 scheduler_create_process(prog1,3);
 scheduler_create_process(prog2,3);
-scheduler_create_process(prog3,2);
+scheduler_create_process(prog3,2);*/
+
+int i;
+for(i = 0; i < 20; i++) {
+	console_print_int(scheduler_create_process(prog1, 1));
+	console_print_string("\n");
+}
 
 while(1) {}
 

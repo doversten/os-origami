@@ -3,9 +3,13 @@
 
 #include "types.h"
 
-void console_putc(char c);
-void console_print_string(const char* text);
-void console_print_int(uint32_t number);
+// Prints a character to the console.
+int console_putc(char c);
+// Prints a string to the console.
+int console_print_string(const char* text);
+// Prints an int to the console.
+int console_print_int(int number);
+// Handle interupt for console i.e. handles input and output.
 void console_handle_interrupt();
 
 #endif

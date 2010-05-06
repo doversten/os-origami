@@ -10,21 +10,22 @@ static pcb_t *current = NULL;
 static pcb_queue_t pcb_ready;
 static pcb_queue_t pcb_block;
 
-void scheduler_kill(uint32_t pid, uint32_t exit_code) {
+int scheduler_kill(uint32_t pid, uint32_t exit_code) {
 
 	// Get pcb
 	pcb_t *zombie_pcb = pcb_get_with_pid(pid);
+
+	if (zombie_pcb->status.field.empty) {
+		return -1;		// Failcode
+	}
 
 	// Remove pcb from scheduler
 	pcb_queue_remove(pcb_ready, pid);
 	pcb_queue_remove(pcb_block, pid);
 
-	// Set ready and zombie bits.
+	// Set ready and empty bits.
 	zombie_pcb->status.field.ready = 0;
-	zombie_pcb->status.field.zombie = 1;
-
-	// Save exit code in zombie pcb
-	zombie_pcb->exit_code = exit_code;
+	zombie_pcb->status.field.empty = 1;
 
 	// Currently process was running, chose a new one.
 	if (zombie_pcb == current) {
@@ -35,12 +36,16 @@ void scheduler_kill(uint32_t pid, uint32_t exit_code) {
 			// Set currently process to next process in 'chain'
 			current = current->next;
 		}
+
+	//###TODO: SEND MESSAGE TO SUPERVISOR###
+ 
 		scheduler_handle_interrupt();
 	}
+	return 0; 		// Success code
 }
 
-void scheduler_exit(uint32_t exit_code) {
-	scheduler_kill(current->pid, exit_code);
+int scheduler_exit(uint32_t exit_code) {
+	return scheduler_kill(current->pid, exit_code);
 }
 
 int scheduler_create_process(void (*code)(),uint32_t priority) { //const *void code
@@ -49,7 +54,7 @@ int scheduler_create_process(void (*code)(),uint32_t priority) { //const *void c
 	pcb_t *new_pcb = pcb_get();
 
 	if(!new_pcb) {
-		return 0; //failcode
+		return -1; //failcode
 	}
 
 	// Set Empty bit to false
@@ -64,25 +69,24 @@ int scheduler_create_process(void (*code)(),uint32_t priority) { //const *void c
 	// Set stackpointer to highest adress of program stack
 	new_pcb->regs.sp_reg = new_pcb->stack_start;
 
-	// Set process is not zombie
-	new_pcb->status.field.zombie = 0;
-
 	// Set process to be ready to execute
 	new_pcb->status.field.ready = 1;
 
 	// Add the process to the ready queue
 	pcb_queue_add(pcb_ready, new_pcb);
 
-	return 1; //successcode
-
+	return new_pcb->pid; //successcode
 }
 
 void scheduler_handle_interrupt() {
+	// If there is no current running process choose the highest priority from the ready queue
 	if(!current){
 		current = pcb_queue_get_highest_priority(pcb_ready);
 	} 
 	if(!current) {
+	// If there is no process in the ready queue, do: ###TODO?### nothing...
 	}else {
+	// If there is a current process, choose the next process in the 'chain'.
 		current = current->next;
 		kset_registers(&current->regs);
 	}

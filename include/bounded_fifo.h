@@ -12,7 +12,7 @@ struct bounded_fifo_t {
   uint32_t length;
 } bounded_fifo_t;
 
-void bfifo_put(struct bounded_fifo_t* bfifo, uint8_t ch);
-uint8_t bfifo_get(struct bounded_fifo_t* bfifo);
+void bfifo_put(struct bounded_fifo_t* bfifo, uint8_t ch);		// Put an element in the queue
+uint8_t bfifo_get(struct bounded_fifo_t* bfifo);					// remove an element from the queue
 
 #endif

@@ -9,7 +9,7 @@ static char reading = 0;
 
 
 
-void console_putc(char c) {
+int console_putc(char c) {
 
 	//FULDEBUG
 	while(bfifo.length >= FIFO_SIZE) {};
@@ -30,25 +30,32 @@ void console_putc(char c) {
 	}
 
 	console->ier.field.etbei = 1;
-
-
-		
+	
+	return 0;		// Success code
 }
 
-void console_print_string(const char* text) {
+int console_print_string(const char* text) {
 	while (text[0] != '\0') {
 		console_putc(text[0]);
 		++text;
 	}
+	
+	return 0;		// Success code
 }
 
-void console_print_int(uint32_t number) {
+int console_print_int(int number) {
+	if (number < 0) {
+		console_putc('-');
+		number *= -1;
+	}
 	if (number < 10) {
 		console_putc('0' + number);
 	}else{
 		console_print_int(number/10);
 		console_putc('0' + number % 10);
 	}
+
+	return 0; // Success code
 }
 
 void console_handle_interrupt() {
@@ -67,18 +74,13 @@ void console_handle_interrupt() {
 				}
 	}
 
-
-
 	//console->ier.field.etbei = 0;
 	//kset_cause(~0x1000, 0);
-
 }
 
 void console_read_line(char* text) {
 	int i = 0;
 	reading = 1;
-	while(1) {
-			
+	while(1) {		
 	}	
-
 }
