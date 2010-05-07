@@ -36,18 +36,16 @@ excn_stack:
 	.set nomove
 
 	.globl	_start
-	.globl  kget_sr
-	.globl  kset_sr
-	.globl  kget_cause
-	.globl  kset_cause
-	.globl  kload_timer
-	.globl  kset_registers
-	.globl  kget_registers
-	.globl  kexception
+	.globl	kget_sr
+	.globl	kset_sr
+	.globl	kget_cause
+	.globl	kset_cause
+	.globl	kload_timer
+	.globl	kset_registers
+	.globl	kget_registers
+	.globl	kexception
 	.globl	kdebug_magic_break
-
-	.globl	main_loop
-	.globl	scheduler_create_process
+	.globl	kinit
 
 
 # -------------------------------------------------------------------------
@@ -164,8 +162,7 @@ copyloop:
 	
 	la gp, 0x80000000
 	la sp, init_stack-32
-	jal  kinit
-   j main_loop
+	j	kinit
 
 # -------------------------------------------------------------------------
 # On exception: jump to exception handler.

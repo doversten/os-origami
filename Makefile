@@ -40,7 +40,7 @@ do_boot: bin/boot
 
 #### RULES TO BUILD BINARIES FROM OBJECT FILES
 
-bin/boot: $(addprefix build/, boot.o syscall.o console.o main_loop.o interrupt.o bounded_fifo.o scheduler.o pcb_queue.o pcb.o api.o)
+bin/boot: $(addprefix build/, boot.o init.o malta_display.o syscall.o console.o folding.o interrupt.o bounded_fifo.o scheduler.o pcb_queue.o pcb.o api.o)
 	$(LD) $(ARCH) -o $@ $^
 
 #### Add dependency on headerfile of various tty.o files
@@ -66,7 +66,10 @@ build/pcb_queue.o: src/pcb_queue.c include/pcb.h include/pcb_queue.h include/typ
 build/pcb.o: src/pcb.c include/pcb.h include/types.h include/stack.h
 	$(CC) $(ARCH) $(CFLAGS)  -c $< -o $@
 
-build/api.o: src/api.c include/pcb.h include/syscall.h include/api.h include/console.h include/scheduler.h
+build/api.o: src/api.c include/pcb.h include/syscall.h include/api.h include/console.h include/scheduler.h include/malta_display.h
+	$(CC) $(ARCH) $(CFLAGS)  -c $< -o $@
+
+build/malta_display.o: src/malta_display.c include/malta_display.h
 	$(CC) $(ARCH) $(CFLAGS)  -c $< -o $@
 
 ###### GENERIC BUILD PATTERNS ########
