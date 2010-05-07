@@ -83,6 +83,12 @@ int scheduler_create_process(void (*code)(),uint32_t priority) { //const *void c
 	// Add the process to the ready queue
 	pcb_queue_add(pcb_ready, new_pcb);
 
+	// New process higher priority?
+	if (!current || priority < current->priority) {
+		current = NULL;
+		scheduler_handle_interrupt();
+	}
+
 	return new_pcb->pid; //successcode
 }
 

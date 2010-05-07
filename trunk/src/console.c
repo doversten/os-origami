@@ -14,7 +14,7 @@ static int input_index;
 static int input_index_max;
 static uint32_t input_pid;
 
-int console_putc(char c, int buffer) { 
+int console_put_c(char c, int buffer) { 
 
 	if (bfifo[buffer].length >= FIFO_SIZE) {
 		return -1; // Fail code, unable to buffer char
@@ -46,7 +46,7 @@ int console_putc(char c, int buffer) {
 int console_print_string(const char* text) {
 
 	while (text[0] != '\0') {
-		if(console_putc(text[0], PRINT_BUFFER_NORMAL)) {
+		if(console_put_c(text[0], PRINT_BUFFER_NORMAL)) {
 			return -1; // Fail code, could not print enitre string
 		}
 		++text;
@@ -58,37 +58,35 @@ int console_print_string(const char* text) {
 int console_print_int(int number) {
 
 	if (number < 0) {
-		console_putc('-', PRINT_BUFFER_NORMAL);
+		console_put_c('-', PRINT_BUFFER_NORMAL);
 		number *= -1;
 	}
 	if (number < 10) {
-		console_putc('0' + number, PRINT_BUFFER_NORMAL);
+		console_put_c('0' + number, PRINT_BUFFER_NORMAL);
 	}else{
 		console_print_int(number/10);
-		console_putc('0' + number % 10, PRINT_BUFFER_NORMAL);
+		console_put_c('0' + number % 10, PRINT_BUFFER_NORMAL);
 	}
 
 	return 0; // Success code
 }
 
-int console_storec(char c){
+int console_store_c(char c){
 
 	if ( c == 8 && input_index > 0) {
-		// Backspace
-		input_index--;
-		console_putc(c, PRINT_BUFFER_INPUT);
+		// Backspace 
+			input_index--;
+			console_put_c(c, PRINT_BUFFER_INPUT);
 	} else if  (c == '\r'){
 		// Return
 		input_string[input_index] = NULL;
-		console_putc(c, PRINT_BUFFER_INPUT);
+		console_put_c(c, PRINT_BUFFER_INPUT);
 		return 1;
-	} else if (input_index <= input_index_max){
+	} else if (input_index <= input_index_max && c != 8){
 		// Normal chars
 		input_string[input_index] = c;
 		input_index++;
-		console_putc(c, PRINT_BUFFER_INPUT);
-	} else {
-
+		console_put_c(c, PRINT_BUFFER_INPUT);
 	}
 	
 	return 0;
@@ -102,8 +100,8 @@ void console_handle_interrupt() {
 	// Key pressed
 	if (console->lsr.field.dr) {
 		c = console->rbr;
-		if (input_in_progress){
-			if (console_storec(c)) {
+		if (input_in_progress) {
+			if (console_store_c(c)) {
 				input_in_progress = 0;
 				scheduler_unblock(input_pid);
 			}
