@@ -32,6 +32,8 @@ typedef struct pcb_t
 	struct pcb_t *prev;
 	// Pointer to the process stack.		
 	uint32_t stack_start;
+	// Ticks to sleep the process
+	int sleep;
 
 } pcb_t;
 

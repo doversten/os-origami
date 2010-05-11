@@ -3,17 +3,48 @@
 #include "types.h"
 #include "console.h"
 
-int pcb_queue_remove(pcb_queue_t queue, uint32_t pid) {
+int pcb_queue_contains(pcb_queue_t *queue, uint32_t pid) {
+
+	int i;
+
+	for (i = 0; i < NUMBER_OF_PROCESSES; i++) {
+		if (queue->elements[i] && queue->elements[i]->pid == pid) {
+			return 1;
+		}
+	}
+
+	return 0;
+}
+
+void pcb_queue_reset(pcb_queue_t *queue) {
+	queue->current = 0;
+}
+
+pcb_t *pcb_queue_next(pcb_queue_t *queue) {
+	int i;
+
+	if (!queue) { return NULL; }
+
+	for (i = queue->current; i < NUMBER_OF_PROCESSES; i++) {
+		if (queue->elements[i]) {
+			queue->current = i;
+			return queue->elements[i];
+		}
+	}
+	return NULL;
+}
+
+int pcb_queue_remove(pcb_queue_t *queue, uint32_t pid) {
 
 	uint32_t i = 0;
 
 	for (i = 0; i < NUMBER_OF_PROCESSES; i++) {
 		//check if it is a PCB and the PCB we looking for.
-		if(queue[i] && queue[i]->pid == pid) {
+		if(queue->elements[i] && queue->elements[i]->pid == pid) {
 			// Link together the previus and next element in the 'chain'
-			queue[i]->prev->next = queue[i]->next;
-			queue[i]->next->prev = queue[i]->prev;
-			queue[i] = NULL;
+			queue->elements[i]->prev->next = queue->elements[i]->next;
+			queue->elements[i]->next->prev = queue->elements[i]->prev;
+			queue->elements[i] = NULL;
 		}
 	}
 
@@ -21,7 +52,7 @@ int pcb_queue_remove(pcb_queue_t queue, uint32_t pid) {
 
 }
 
-int pcb_queue_add(pcb_queue_t queue, pcb_t *element) {
+int pcb_queue_add(pcb_queue_t *queue, pcb_t *element) {
 
 	uint32_t i = 0;
 
@@ -34,8 +65,8 @@ int pcb_queue_add(pcb_queue_t queue, pcb_t *element) {
 	if (!queue) { return 0; }
 
 	for (i = 0; i < NUMBER_OF_PROCESSES; i++) {
-		if(queue[i] == NULL){
-			queue[i] = element;
+		if(queue->elements[i] == NULL){
+			queue->elements[i] = element;
 			break;
 		}
 	}
@@ -43,11 +74,12 @@ int pcb_queue_add(pcb_queue_t queue, pcb_t *element) {
 	if (i == NUMBER_OF_PROCESSES) { return 0; }
 
 	for (i = 0; i < NUMBER_OF_PROCESSES; i++) {
-		if(!queue[i] || queue[i] == element) { continue; }
-		if (queue[i]->priority == element->priority) {
-			element->next = queue[i]->next;
-			element->prev = queue[i];
-			queue[i]->next = element;
+		// Is PCB stored at this index? Is it the added PCB?
+		if(!queue->elements[i] || queue->elements[i] == element) { continue; }
+		if (queue->elements[i]->priority == element->priority) {
+			element->next = queue->elements[i]->next;
+			element->prev = queue->elements[i];
+			queue->elements[i]->next = element;
 			element->next->prev = element;
 			break;
 		}
@@ -57,17 +89,17 @@ int pcb_queue_add(pcb_queue_t queue, pcb_t *element) {
 
 }
 
-pcb_t *pcb_queue_get_highest_priority(pcb_queue_t queue) {
+pcb_t *pcb_queue_get_highest_priority(pcb_queue_t *queue) {
 
 	uint32_t i;
 	pcb_t *current_highest = NULL;
 
 	for (i = 0; i < NUMBER_OF_PROCESSES; i++) {
 		//Check if space in array is not-empty
-		if (queue[i]) {
+		if (queue->elements[i]) {
 			//Check if we have a higher priotity or if current i lower then the highest
-			if ( !current_highest || current_highest->priority > queue[i]->priority) {
-				current_highest = queue[i];
+			if ( !current_highest || current_highest->priority > queue->elements[i]->priority) {
+				current_highest = queue->elements[i];
 			}
 		}
 	}
@@ -76,23 +108,23 @@ pcb_t *pcb_queue_get_highest_priority(pcb_queue_t queue) {
 
 
 /* TEST CODE*/
-void pcb_queue_print(pcb_queue_t queue) {
+void pcb_queue_print(pcb_queue_t *queue) {
 
 	uint32_t i = 0;
 
 
 	for (i = 0; i < NUMBER_OF_PROCESSES; i++) {
 		console_print_string("\n-----");
-		if(queue[i]) {
+		if(queue->elements[i]) {
 			console_print_string("\narray_index=");
 			console_print_int(i);
 			console_print_string("\npid=");
-			console_print_int(queue[i]->pid);
-			if(queue[i]->next) {
+			console_print_int(queue->elements[i]->pid);
+			if(queue->elements[i]->next) {
 				console_print_string("\nnext=");
-				console_print_int((uint32_t)queue[i]->next->pid);
+				console_print_int((uint32_t)queue->elements[i]->next->pid);
 				console_print_string("\nprev=");
-				console_print_int((uint32_t)queue[i]->prev->pid);
+				console_print_int((uint32_t)queue->elements[i]->prev->pid);
 			}
 		} else {
 			console_print_string("\narray_index=");
@@ -109,7 +141,9 @@ void pcb_queue_print(pcb_queue_t queue) {
 
 void pcb_queue_test() {
 
-	pcb_queue_t q;
+	pcb_queue_t q_struct;
+	pcb_queue_t *q = &q_struct;
+
 	pcb_t pcb0;
 	pcb_t pcb1;
 	pcb_t pcb2;

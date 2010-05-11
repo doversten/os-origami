@@ -21,7 +21,7 @@ void kexception()
 	
 	if (cause.field.ip & 0x80) { //Timer interrupt
 	/* Reload timer for another 100 ms (simulated time) */
-		kload_timer(10 * timer_msec);
+		kload_timer(100 * timer_msec);
 		scheduler_handle_interrupt();
 
 
