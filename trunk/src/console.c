@@ -103,7 +103,7 @@ void console_handle_interrupt() {
 		if (input_in_progress) {
 			if (console_store_c(c)) {
 				input_in_progress = 0;
-				scheduler_unblock(input_pid);
+				//scheduler_unblock(input_pid);
 			}
 		}
 	}
@@ -133,7 +133,7 @@ void console_handle_interrupt() {
 }
 
 int console_read_line(char* text, int max) {
-
+	return 0;
 	if(input_in_progress) {
 		return -1;
 	}
