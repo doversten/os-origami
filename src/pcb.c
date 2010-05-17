@@ -1,9 +1,11 @@
 #include "pcb.h"
 #include "types.h"
 #include "stack.h"
+#include "message_pool.h"
 
 static volatile pcb_t pcbArray[NUMBER_OF_PROCESSES];
 static volatile stack_t stackArray[NUMBER_OF_PROCESSES];
+
 
 pcb_t *pcb_get_with_pid(uint32_t pid) {
 
@@ -20,6 +22,7 @@ void pcb_init() {
 		pcbArray[i].pid = i;
 		pcbArray[i].status.field.empty = 1;
 		pcbArray[i].stack_start = (uint32_t) &stackArray[i].memory[PROGRAM_STACK_START];
+		//pcbArray[i].messages = &poolArray[i]; //Not really necessary since we don't use it
 	}
 }
 
