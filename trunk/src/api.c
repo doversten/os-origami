@@ -4,6 +4,8 @@
 #include "scheduler.h"
 #include "types.h"
 #include "malta_display.h"
+#include "message_pool.h"
+#include "message.h"
 
 int og_print_string(const char* text) {
 	return og_syscall((uint32_t) console_print_string, (uint32_t) text, 0, 0);
@@ -44,3 +46,19 @@ int og_sleep(int ticks) {
 int og_set_priority(uint32_t pid, uint32_t priority) {
 	return og_syscall((uint32_t) scheduler_set_priority, pid, priority, 0);
 }
+
+
+
+
+
+/*
+	pre: spot is empty
+ */
+int og_read_msg(char type, message_t *spot, int timeout) {
+	return og_syscall((uint32_t) message_pool_read, (uint32_t) type, (uint32_t) spot,(uint32_t) timeout);
+}
+
+int og_send_msg(uint32_t receiver, char type, uint32_t data) {
+	return og_syscall((uint32_t) message_pool_send, receiver, (uint32_t) type, data);
+}
+

@@ -183,7 +183,7 @@ void scheduler_decrease_sleep(){
 
 	pcb_t *pcb;
 	pcb_queue_reset(&pcb_block);
-	while(pcb = pcb_queue_next(&pcb_block)) {
+	while((pcb = pcb_queue_next(&pcb_block))) {
 		if (pcb->sleep) {
 			pcb->sleep--;
 			if (!pcb->sleep) {

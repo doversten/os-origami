@@ -4,80 +4,41 @@
 #include "api.h"
 #include "programs.h"
 
-#include "types.h"
-
-void prog1() {
-
-	char test[16];
-
-	while (1) {
-
-		og_print_string("Origami1> ");
-		while(og_read_line(test, 16)){}
-		og_print_string("Fagel 1 viskar: ");
-		og_print_string(test);
+void child() {
+	message_t brev;
+	if (og_read_msg('i', &brev, 1000000)) {
+		og_print_string("fail");
+		og_print_string("\n");
+	} else {
+		og_print_int(brev.message);
 		og_print_string("\n");
 	}
 
-}
-
-void prog2() {
-
-og_print_int(42);
-
-og_exit(0);
+	og_exit(0);
 
 }
 
-void prog3() {
-
-	while(1) {
-
-		og_print_string("a");
-		if (og_sleep(10000)) {
-			og_print_string("I'm not sleepy :(");
-		}
-
+void parent() {
+	int i;
+	uint32_t pid[5];
+	for(i = 0; i < 5; i++) {
+		pid[i] = og_spawn(child, 10);
 	}
 
-}
+	og_print_string("Lilla barnen skapade\n");
 
-static uint32_t pid1;
-static uint32_t pid2;
-static uint32_t prio = 2;
-
-void prio2() {
-
-	while (1) {
-		og_print_string("2");
-		og_set_priority(pid2, ++prio);
+	for(i = 0; i < 5; i++) {
+		og_set_priority(pid[i], 20+i);
 	}
 
-}
+		og_print_string("Smiskat ner barnen till lagre prio\n");
 
-void prio1() {
-
-	og_sleep(10000);
-
-	pid2 = og_spawn(prio2, ++prio);
-
-	/*og_print_string("pid1 ");
-	og_print_int(pid1);
-	og_print_string("\n");
-	og_print_string("pid2 ");
-	og_print_int(pid2);
-	og_print_string("\n");*/
-
-	while (1) {
-		og_print_string("1");
-		og_set_priority(pid1, ++prio);
-		/*og_print_string("prio ");
-		og_print_int(prio);
-		og_print_string("\n");
-		og_print_string("set_prio code ");
-		og_print_int(og_set_priority(pid1, ++prio));
-		og_print_string("\n");*/
+	for(i = 0; i < 5; i++) {
+		og_send_msg(pid[i], 'i', pid[i]);
 	}
+
+	og_print_string("Medelanden skickade\n");
+	og_exit(0);
 
 }
 
@@ -99,10 +60,7 @@ void folding() {
 
 	og_spawn(malta_scroller, 1);
 
-   pid1 = og_spawn(prio1, prio);
-	og_print_string("folding pid1 ");
-	og_print_int(pid1);
-	og_print_string("\n");
+   og_spawn(parent, 15);
 
 	while(1) {}
 

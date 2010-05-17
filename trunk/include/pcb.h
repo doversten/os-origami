@@ -4,6 +4,7 @@
 #include "types.h"
 #include "registers.h"
 #include "stack.h"
+#include "message_pool.h"
 
 #define NUMBER_OF_PROCESSES 16
 #define NULL 0
@@ -34,6 +35,8 @@ typedef struct pcb_t
 	uint32_t stack_start;
 	// Ticks to sleep the process
 	int sleep;
+	// Message pool
+	//message_pool_t *message_pool; //Not really necessary since we don't use it
 
 } pcb_t;
 
