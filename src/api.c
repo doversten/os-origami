@@ -62,3 +62,8 @@ int og_send_msg(uint32_t receiver, char type, uint32_t data) {
 	return og_syscall((uint32_t) message_pool_send, receiver, (uint32_t) type, data);
 }
 
+
+uint32_t og_get_pid(){
+	return og_syscall((uint32_t) scheduler_get_current_pid, 0, 0, 0);
+}
+

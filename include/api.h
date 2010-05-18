@@ -17,5 +17,6 @@ int og_sleep(int ticks);
 int og_set_priority(uint32_t pid, uint32_t priority);
 int og_read_msg(char type, message_t *spot, int timeout);
 int og_send_msg(uint32_t receiver, char type, uint32_t data);
+uint32_t og_get_pid();
 
 #endif
