@@ -28,7 +28,7 @@ void parent() {
 	og_print_string("Lilla barnen skapade\n");
 
 	for(i = 0; i < 5; i++) {
-		og_set_priority(pid[i], 20+i);
+		og_set_priority(pid[i], 20);
 	}
 
 		og_print_string("Smiskat ner barnen till lagre prio\n");
@@ -39,6 +39,22 @@ void parent() {
 
 	og_print_string("Medelanden skickade\n");
 	og_exit(0);
+
+}
+
+void reader() {
+
+	char buffer[128];
+	og_print_string("Readin'\n");
+
+	while (1) {
+		og_print_string("\n>");
+		while(og_read_line(&buffer[0], 128)) {
+			og_print_string("input in progress\n");
+		};
+		og_print_string("Read'\n");
+		og_print_string(buffer);
+	}
 
 }
 
@@ -60,7 +76,8 @@ void folding() {
 
 	og_spawn(malta_scroller, 1);
 
-   og_spawn(parent, 15);
+   //og_spawn(parent, 15);
+	og_spawn(reader, 15);
 
 	while(1) {}
 

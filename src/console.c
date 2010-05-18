@@ -35,7 +35,11 @@ int console_put_c(char c, int buffer) {
 		bfifo_put(&bfifo[buffer], c);
 	}
 
-	if (!(buffer == PRINT_BUFFER_NORMAL && input_in_progress)) { 
+	/*if (!(buffer == PRINT_BUFFER_NORMAL && input_in_progress)) { 
+		console->ier.field.etbei = 1;
+	}*/
+	if (buffer == PRINT_BUFFER_NORMAL && input_in_progress) { 
+	} else {
 		console->ier.field.etbei = 1;
 	}
 
@@ -75,8 +79,8 @@ int console_store_c(char c){
 
 	if ( c == 8 && input_index > 0) {
 		// Backspace 
-			input_index--;
-			console_put_c(c, PRINT_BUFFER_INPUT);
+		input_index--;
+		console_put_c(c, PRINT_BUFFER_INPUT);
 	} else if  (c == '\r'){
 		// Return
 		input_string[input_index] = NULL;
@@ -103,7 +107,7 @@ void console_handle_interrupt() {
 		if (input_in_progress) {
 			if (console_store_c(c)) {
 				input_in_progress = 0;
-				//scheduler_unblock(input_pid);
+				scheduler_unblock(input_pid);
 			}
 		}
 	}
@@ -133,7 +137,7 @@ void console_handle_interrupt() {
 }
 
 int console_read_line(char* text, int max) {
-	return 0;
+
 	if(input_in_progress) {
 		return -1;
 	}
