@@ -1,3 +1,16 @@
+#include "types.h"
+
+static uint32_t current_random;
+
+uint32_t og_random(uint32_t min, uint32_t max) {
+	current_random = (current_random*current_random) % (7877*5087); //Two randomly selected primes :/
+	return (current_random % (max-min+1)) + min;
+}
+
+void og_seed(uint32_t seed) {
+	current_random = seed;
+}
+
 int og_parse_int(char* text, int* n) {
 	int i = 0;
 	int ack = 0;

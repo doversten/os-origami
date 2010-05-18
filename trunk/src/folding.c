@@ -95,6 +95,16 @@ void argumenter(int i) {
 	og_exit(0);
 }
 
+void randomer(uint32_t seed) {
+	og_seed(seed);
+	int i;
+	for (i = 0; i < 100; i++) {
+		og_print_int(og_random(1,10));
+		og_print_string("\n");
+	}	
+	og_exit(0);
+}
+
 void folding() {
 
 	og_print_string("                   _____ ______  _____  _____   ___  ___  ___ _____ \n");
@@ -115,9 +125,14 @@ void folding() {
 
    //og_spawn(parent, 15);
 
-	og_spawn(argumenter, 42, 1);
+//	og_spawn(argumenter, 42, 1);
 
-	og_spawn(reader, 0, 15);
+//	og_spawn(reader, 0, 15);
+
+	og_spawn(randomer, 1337, 1);
+	og_spawn(randomer, 2*1337, 1);
+	og_spawn(randomer, 3*1337, 1);
+	og_spawn(randomer, 4*1337, 1);
 
 	while(1) {}
 
