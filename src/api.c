@@ -16,7 +16,10 @@ int og_print_int(int i) {
 }
 
 int og_read_line(char* text, int max) {
-	return og_syscall((uint32_t) console_read_line, (uint32_t) text, (uint32_t) max, 0);
+	while(og_syscall((uint32_t) console_read_line, (uint32_t) text, (uint32_t) max, 0)) {
+		og_sleep(100);
+	}
+	return 0;
 }
 
 int og_display_string(const char* text) {
@@ -46,9 +49,6 @@ int og_sleep(int ticks) {
 int og_set_priority(uint32_t pid, uint32_t priority) {
 	return og_syscall((uint32_t) scheduler_set_priority, pid, priority, 0);
 }
-
-
-
 
 
 /*
