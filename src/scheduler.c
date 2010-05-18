@@ -86,7 +86,7 @@ int scheduler_exit(uint32_t exit_code) {
 	return scheduler_kill(current->pid, exit_code);
 }
 
-int scheduler_create_process(void (*code)(),uint32_t priority) { //const *void code
+int scheduler_create_process(void (*code)(), uint32_t argument, uint32_t priority) { //const *void code
 
 	//uint32_t pid = 0;
 	pcb_t *new_pcb = pcb_get();
@@ -106,6 +106,9 @@ int scheduler_create_process(void (*code)(),uint32_t priority) { //const *void c
 
 	// Set stackpointer to highest adress of program stack
 	new_pcb->regs.sp_reg = new_pcb->stack_start;
+
+	// Set the argument of the procces
+	new_pcb->regs.a_reg[0] = argument;
 
 	// Set process to be ready to execute
 	new_pcb->status.field.ready = 1;

@@ -27,8 +27,8 @@ int og_display_int(int n) {
 	return og_syscall((uint32_t) malta_display_int, (uint32_t) n, 0, 0); 
 }
 
-int og_spawn(void (*code)(), uint32_t priority) {
-	return og_syscall((uint32_t) scheduler_create_process, (uint32_t) code, priority, 0);
+int og_spawn(void (*code)(), uint32_t argument, uint32_t priority) {
+	return og_syscall((uint32_t) scheduler_create_process, (uint32_t) code, argument, priority);
 }
 
 int og_kill(uint32_t pid, uint32_t exit_code) {
