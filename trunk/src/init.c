@@ -6,12 +6,16 @@
 #include "scheduler.h"
 #include "malta_display.h"
 #include "folding.h" //Idle process
+#include "programs.h"
 
 static registers_t regs;
 static volatile ns16550_t* const console = (ns16550_t*) 0xb80003f8;
 
 void kinit()
 {
+
+	//'Meta'-Programs init
+	programs_init();
 
 	// Init malta display
 	malta_display_init();

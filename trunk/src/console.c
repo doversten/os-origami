@@ -154,4 +154,3 @@ int console_read_line(char* text, int max) {
 
 }
 
-

@@ -4,6 +4,8 @@
 #include "api.h"
 #include "programs.h"
 
+#include "og_stdlib.h"
+
 void child() {
 	message_t brev;
 	if (og_read_msg('i', &brev, 1000000)) {
@@ -42,21 +44,48 @@ void parent() {
 
 }
 
-void reader() {
+void intreader() {
 
+	int n = -1;
 	char buffer[128];
 	og_print_string("Readin'\n");
 
 	while (1) {
-		og_print_string("\n>");
-		while(og_read_line(&buffer[0], 128)) {
-			og_print_string("input in progress\n");
-		};
-		og_print_string("Read'\n");
-		og_print_string(buffer);
+		
+		buffer[0] = 0;
+		while(og_parse_int(buffer, &n)) {
+			og_print_string("Enter an integer: ");
+			og_read_line(&buffer[0], 128);
+		}
+
+		og_print_string("Read: ");
+		og_print_int(n);
+		og_print_string("\n");
 	}
 
 }
+
+void reader() {
+
+	char buffer1[128];
+	char buffer2[128];
+	og_print_string("Readin'\n");
+
+	while (1) {
+
+		og_print_string("String1: ");
+		og_read_line(buffer1, 128);
+		og_print_string("String2: ");
+		og_read_line(buffer2, 128);
+
+		if (!og_string_equals(buffer1, buffer2)) {
+			og_print_string("o");
+		}
+		og_print_string("lika!\n");
+	}
+
+}
+
 
 void argumenter(int i) {
 	og_print_string("\n");
@@ -82,9 +111,10 @@ void folding() {
 	//og_display_string("Origami");
 	//og_display_string("LOL O ! ");
 
-	og_spawn(malta_scroller, 0, 1);
+	og_spawn(programs_get_program("malta_scroller"), 0, 1);
 
    //og_spawn(parent, 15);
+
 	og_spawn(argumenter, 42, 1);
 
 	og_spawn(reader, 0, 15);
