@@ -20,7 +20,7 @@ void kinit()
 	pcb_init();
 
 	// Mother of all process
-	scheduler_create_process(folding, 0xFFFFFFFF);
+	scheduler_create_process(folding, 0, 0xFFFFFFFF);
 
 	// Init
 	status_reg_t and, or;

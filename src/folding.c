@@ -22,7 +22,7 @@ void parent() {
 	int i;
 	uint32_t pid[5];
 	for(i = 0; i < 5; i++) {
-		pid[i] = og_spawn(child, 10);
+		pid[i] = og_spawn(child, 0, 10);
 	}
 
 	og_print_string("Lilla barnen skapade\n");
@@ -58,6 +58,14 @@ void reader() {
 
 }
 
+void argumenter(int i) {
+	og_print_string("\n");
+	og_print_string("Argumenter: ");
+	og_print_int(i);
+	og_print_string("\n");
+	og_exit(0);
+}
+
 void folding() {
 
 	og_print_string("                   _____ ______  _____  _____   ___  ___  ___ _____ \n");
@@ -74,10 +82,12 @@ void folding() {
 	//og_display_string("Origami");
 	//og_display_string("LOL O ! ");
 
-	og_spawn(malta_scroller, 1);
+	og_spawn(malta_scroller, 0, 1);
 
    //og_spawn(parent, 15);
-	og_spawn(reader, 15);
+	og_spawn(argumenter, 42, 1);
+
+	og_spawn(reader, 0, 15);
 
 	while(1) {}
 

@@ -12,7 +12,7 @@
 void scheduler_init();
 
 // Create a process with specied function and priority.							
-int scheduler_create_process(void (*code)(),uint32_t priority);
+int scheduler_create_process(void (*code)(), uint32_t argument, uint32_t priority);
 
 // Kill a process with specified pid and speciefied exit code.
 int scheduler_kill(uint32_t pid, uint32_t exit_code);
