@@ -11,12 +11,12 @@ int compare(char* a, char* b){
 	int i = 0;
 	while(a[i]&&b[i]){
 		if (a[i]!=b[i]){
-			return 0;
+			return 0;	// The current characters are not equal
 		}
 		i++;
 	}
 	
-	if (a[i] || b[i]) {
+	if (a[i] || b[i]) {		// One of the string is longer then the other
 		return 0;
 	}
 
@@ -59,7 +59,7 @@ void parser (char* input){
 	} else if (compare(input, "exit") || compare(input, "EXIT")) {
 		og_print_string("Bye bye! Thank you for folding...\n");
 		og_exit(0);
-	}  else if (compare(input, "thotin")) {
+	} else if (compare(input, "thotin")) {
 		thotin();
 	} else {
 		og_print_string(input);
