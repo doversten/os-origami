@@ -29,7 +29,7 @@ void kinit()
 	kset_registers(&regs);
 
 	/* Initialise timer to interrupt in 100 ms (simulated time). */
-	kload_timer(10 * timer_msec);
+	kload_timer(100 * timer_msec);
 
 	/* Update the status register to enable timer interrupts. */
 	//kset_sr(0xFFBF00E8, 0x10008001);

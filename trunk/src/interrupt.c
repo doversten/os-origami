@@ -10,6 +10,7 @@ static volatile ns16550_t* const console = (ns16550_t*) 0xb80003f8;
 
 void kexception()
 {
+
 	//static int i = 0;
 	cause_reg_t cause;
 	registers_t* reg;
@@ -21,12 +22,13 @@ void kexception()
 	
 	if (cause.field.ip & 0x80) { //Timer interrupt
 	/* Reload timer for another 100 ms (simulated time) */
-		kload_timer(100 * timer_msec);
+		//console_print_string("Timer\n");
+		kload_timer(timer_msec/5);
 		scheduler_handle_interrupt();
 
 
-
 	} else if(cause.field.ip & 4) { //Console interrupt
+		//malta_display_string("MaltaItr");
 		console_handle_interrupt();
 	} else if(cause.field.exc == 8) {
 		reg = kget_registers();

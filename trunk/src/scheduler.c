@@ -183,14 +183,17 @@ void scheduler_decrease_sleep(){
 
 	pcb_t *pcb;
 	pcb_queue_reset(&pcb_block);
-	while((pcb = pcb_queue_next(&pcb_block))) {
-		if (pcb->sleep) {
+	pcb = pcb_queue_next(&pcb_block);
+	while(pcb) {
+		if (pcb->sleep > 0) {
 			pcb->sleep--;
-			if (!pcb->sleep) {
+			if ((pcb->sleep) == 0) {
 				scheduler_unblock(pcb->pid);
 			}
 		}
+		pcb = pcb_queue_next(&pcb_block);
 	}
+
 }
 
 void scheduler_schedule() {

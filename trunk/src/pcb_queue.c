@@ -21,17 +21,16 @@ void pcb_queue_reset(pcb_queue_t *queue) {
 }
 
 pcb_t *pcb_queue_next(pcb_queue_t *queue) {
-	int i;
 
-	if (!queue) { return NULL; }
-
-	for (i = queue->current; i < NUMBER_OF_PROCESSES; i++) {
-		if (queue->elements[i]) {
-			queue->current = i;
-			return queue->elements[i];
+	while(queue->current < NUMBER_OF_PROCESSES) {
+		queue->current++;
+		if (queue->elements[queue->current-1]) {
+			return queue->elements[queue->current-1];
 		}
 	}
-	return NULL;
+
+	return 0;
+
 }
 
 int pcb_queue_remove(pcb_queue_t *queue, uint32_t pid) {
