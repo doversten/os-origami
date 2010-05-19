@@ -12,6 +12,10 @@ static pcb_t *current = NULL;
 static pcb_queue_t pcb_ready;
 static pcb_queue_t pcb_block;
 
+void scheduler_debug() {
+	pcb_queue_print(&pcb_block);
+}
+
 uint32_t scheduler_system_clock() {
 	return system_clock;
 }
@@ -161,7 +165,7 @@ int scheduler_block(uint32_t pid) {
 		current = NULL;
 		scheduler_schedule();		
 	}
-	
+
 	return 0;
 
 }
@@ -196,6 +200,11 @@ int scheduler_sleep(int ticks) {
 
 	current->sleep = ticks;
 	return scheduler_block(current->pid);
+
+	// DEBUG TODO
+	/*int temp = scheduler_block(current->pid);
+	pcb_queue_print(&pcb_block);
+	return temp;*/
 
 }
 

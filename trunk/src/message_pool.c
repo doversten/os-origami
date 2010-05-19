@@ -10,7 +10,7 @@ int message_pool_send_from(uint32_t sender, uint32_t receiver, char type, uint32
 	pcb_t *pcb = pcb_get_with_pid(receiver);
 	int i;
 
-	if(pool->waiting_for_type == type) {
+	if(pool->waiting_for_type == '*' || pool->waiting_for_type == type) {
 		//Copy the message to the save spot.
 		if(!pool->save_spot) {
 			console_print_string("\n>>>ERROR: og_read called with NULL message pointer.\n");

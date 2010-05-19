@@ -113,13 +113,16 @@ void pcb_queue_print(pcb_queue_t *queue) {
 
 
 	for (i = 0; i < NUMBER_OF_PROCESSES; i++) {
-		console_print_string("\n-----");
-		if(queue->elements[i]) {
-			console_print_string("\narray_index=");
-			console_print_int(i);
+		//console_print_string("\n-----");
+		if(queue->elements[i] && queue->elements[i]->status.field.empty == 0) {
+			/*console_print_string("\narray_index=");
+			console_print_int(i);*/
 			console_print_string("\npid=");
 			console_print_int(queue->elements[i]->pid);
-			if(queue->elements[i]->next) {
+			console_print_string("\nsleep=");
+			console_print_int(queue->elements[i]->sleep);
+			console_print_string("\n");
+			/*if(queue->elements[i]->next) {
 				console_print_string("\nnext=");
 				console_print_int((uint32_t)queue->elements[i]->next->pid);
 				console_print_string("\nprev=");
@@ -128,9 +131,9 @@ void pcb_queue_print(pcb_queue_t *queue) {
 		} else {
 			console_print_string("\narray_index=");
 			console_print_int(i);
-			console_print_string("\nIngen PCB");
+			console_print_string("\nIngen PCB");*/
 		}
-		console_print_string("\n-----");
+		//console_print_string("\n-----");
 	}
 
 }
