@@ -114,15 +114,31 @@ void randomer(uint32_t seed) {
 	og_exit(0);
 }
 
+void stupid_slave() {
 
-void slave(int arg) {
+	message_t message;
+
+	og_read_msg('i', &message, 100);
+
+	og_print_string("I'm the stupid slave with #");
+	og_print_int((int) message.message);
+	og_print_string(" and I'm going to escape!\n");
+
+	while (1) {}
+
+}
+
+void slave() {
 	
 	int sleep_time = og_random(1,10000);
-	
+	message_t message;
+
+	og_read_msg('i', &message, 1000);
 	og_sleep(sleep_time);
 	og_print_string("I'm slave #");
-	og_print_int(arg);
+	og_print_int((int) message.message);
 	og_print_string(" and I'm going to get eaten. T.T \n");
+
 	og_exit(0);
 
 
@@ -132,6 +148,7 @@ void big_boss() {
 
 	int i;
 	uint32_t pid[5];	
+	uint32_t stupid;
 	message_t message;
 
 	og_random_seed(og_system_clock());
@@ -139,11 +156,20 @@ void big_boss() {
 	og_print_string("Spawning my slaves! MUHAHA!\n");
 	
 	for (i = 0; i < 5; i++) {
-		pid[i] = og_spawn(slave, pid, 25);
+		pid[i] = og_spawn(slave, 0, 25);
 		og_supervise(pid[i]);
-		og_print_string("slave created: ");
+		og_print_string("slave #");
 		og_print_int(pid[i]);
-		og_print_string("\n");
+		og_print_string(" spawned\n");
+	}
+
+	og_print_string("Spawning my stupid slave!\n");
+	stupid = og_spawn(stupid_slave, 0, 25);
+	og_supervise(stupid);
+	og_send_msg(stupid, 'i', stupid);
+
+	for(i = 0; i < 5; i++) {
+		og_send_msg(pid[i], 'i', pid[i]);
 	}
 
 	og_print_string("Eating my slaves! MUHAHA!\n");
@@ -154,6 +180,15 @@ void big_boss() {
 		og_print_string(" have been eated!\n");
 	}
 	
+	og_kill(stupid);
+	if (!og_wait(&message, 10000)){
+		og_print_string("Stupid slave #");
+		og_print_int(message.sender);
+		og_print_string(" have been killed! NO ESCAPE!!!\n");
+	}else {
+		og_print_string("Stupidslave have escaped?\n");
+	}
+
 	og_exit(0);
 }
 
