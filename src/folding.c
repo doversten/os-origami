@@ -120,8 +120,9 @@ void slave(int arg) {
 	int sleep_time = og_random(1,10000);
 	
 	og_sleep(sleep_time);
+	og_print_string("I'm slave #");
 	og_print_int(arg);
-	og_print_string("\n");
+	og_print_string(" and I'm going to get eaten. T.T \n");
 	og_exit(0);
 
 
@@ -138,7 +139,7 @@ void big_boss() {
 	og_print_string("Spawning my slaves! MUHAHA!\n");
 	
 	for (i = 0; i < 5; i++) {
-		pid[i] = og_spawn(slave, i, 25);
+		pid[i] = og_spawn(slave, pid, 25);
 		og_supervise(pid[i]);
 		og_print_string("slave created: ");
 		og_print_int(pid[i]);
@@ -148,9 +149,9 @@ void big_boss() {
 	og_print_string("Eating my slaves! MUHAHA!\n");
 	for (i = 0; i < 5; i++) {
 		og_wait(&message, 10000);
-		og_print_string("slave no: ");
+		og_print_string("slave #");
 		og_print_int(message.sender);
-		og_print_string("\n");
+		og_print_string(" have been eated!\n");
 	}
 	
 	og_exit(0);
