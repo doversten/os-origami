@@ -14,5 +14,6 @@ typedef struct messagese_pool_t{
 
 int message_pool_read(char type, message_t *spot, int timeout);
 int message_pool_send(uint32_t receiver, char type, uint32_t message);
+int message_pool_send_from(uint32_t sender, uint32_t receiver, char type, uint32_t message);
 
 #endif
