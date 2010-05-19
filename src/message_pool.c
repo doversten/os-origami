@@ -10,6 +10,15 @@ int message_pool_send_from(uint32_t sender, uint32_t receiver, char type, uint32
 	pcb_t *pcb = pcb_get_with_pid(receiver);
 	int i;
 
+	/*
+
+		TODO DEBUG
+		Är inte följande if-sats jättefarlig om receiver har lägre prio än sändarna
+		och två sändare sänder?
+
+		leder inte det till att vi tappar bort medelandet?
+
+	*/
 	if(pool->waiting_for_type == '*' || pool->waiting_for_type == type) {
 		//Copy the message to the save spot.
 		if(!pool->save_spot) {
@@ -28,6 +37,10 @@ int message_pool_send_from(uint32_t sender, uint32_t receiver, char type, uint32
 
 		scheduler_unblock(receiver);
 
+		// DEBUG TODO
+		//console_print_string("Receiver waiting for this so put in save_spot\n");
+		// DEBUG TODO
+		
 		return 0;
 	} 
 
@@ -40,14 +53,35 @@ int message_pool_send_from(uint32_t sender, uint32_t receiver, char type, uint32
 			break;
 		}
 	}
-	if (i == NUMBER_OF_MESSAGES) 
+	if (i == NUMBER_OF_MESSAGES) {
+		console_print_string("\n>>>ERROR: sending to full inbox.\n");
 		return -1;
+	}
+
+	// DEBUG TODO
+	//console_print_string("Reached end of message_pool_send_from()\n");
+	// DEBUG TODO
 
 	return 0;
 }
 
 int message_pool_send(uint32_t receiver, char type, uint32_t message) {
 	uint32_t sender = scheduler_get_current_pid();
+	// DEBUG TODO
+	/*console_print_string("SENDING:\n");
+	console_print_string("from=");
+	console_print_int(sender);
+	console_print_string("\n");
+	console_print_string("to=");
+	console_print_int(receiver);
+	console_print_string("\n");
+	console_print_string("type=");
+	console_print_int(type);
+	console_print_string("\n");
+	//console_print_string("msg=");
+	//console_print_int(message);
+	//console_print_string("\n");*/
+	// DEBUG TODO
 	return message_pool_send_from(sender, receiver, type, message);
 }
 
