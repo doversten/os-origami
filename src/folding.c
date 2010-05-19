@@ -192,6 +192,25 @@ void big_boss() {
 	og_exit(0);
 }
 
+void dining_ph();
+
+void dining_start() {
+	message_t msg;
+	uint32_t pid;
+	while(1) {
+		pid = og_spawn(dining_ph,0,20);
+		og_supervise(pid);
+		og_wait(&msg, 100000000);
+	}
+}
+
+void debug_prog() {
+	while(1) {
+		scheduler_debug();
+		og_sleep(10000);
+	}
+}
+
 void folding() {
 
 	og_print_string("                   _____ ______  _____  _____   ___  ___  ___ _____ \n");
@@ -215,7 +234,9 @@ void folding() {
 		og_spawn(randomer, og_system_clock(), 1);
 	}*/
 
-	og_spawn(big_boss, 0, 20);
+	//og_spawn(big_boss, 0, 20);
+	og_spawn(debug_prog, 0, 2);
+	og_spawn(dining_start, 0, 3);
 
 	while(1) {}
 
