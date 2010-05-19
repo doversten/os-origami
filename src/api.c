@@ -6,6 +6,8 @@
 #include "malta_display.h"
 #include "message_pool.h"
 #include "message.h"
+#include "random.h"
+#include "supervision.h"
 
 int og_print_string(const char* text) {
 	return og_syscall((uint32_t) console_print_string, (uint32_t) text, 0, 0);
@@ -34,8 +36,8 @@ int og_spawn(void (*code)(), uint32_t argument, uint32_t priority) {
 	return og_syscall((uint32_t) scheduler_create_process, (uint32_t) code, argument, priority);
 }
 
-int og_kill(uint32_t pid, uint32_t exit_code) {
-	return og_syscall((uint32_t) scheduler_kill, pid, exit_code, 0);
+int og_kill(uint32_t pid) {
+	return og_syscall((uint32_t) scheduler_kill, pid, -1, 0);
 }
 
 int og_exit(uint32_t exit_code) {
@@ -67,3 +69,30 @@ uint32_t og_get_pid(){
 	return og_syscall((uint32_t) scheduler_get_current_pid, 0, 0, 0);
 }
 
+
+// Pseudo-random functions
+uint32_t og_random(uint32_t min, uint32_t max) {
+	return og_syscall((uint32_t) random, min, max, 0);
+}
+
+int og_random_seed(uint32_t seed) {
+	return og_syscall((uint32_t) random_seed, seed, 0, 0);
+}
+
+// Time functions
+uint32_t og_system_clock() {
+	return og_syscall((uint32_t) scheduler_system_clock, 0, 0, 0);
+}
+
+// Supervision functions
+int og_supervise(uint32_t pid) {
+	return og_syscall((uint32_t) supervise, pid, 0, 0);
+}
+
+int og_unsupervise(uint32_t pid) {
+	return og_syscall((uint32_t) unsupervise, pid, 0, 0);
+}
+
+int og_wait(message_t *spot, int timeout) {
+	return og_syscall((uint32_t) message_pool_read, (uint32_t) 't', (uint32_t) spot,(uint32_t) timeout);
+}

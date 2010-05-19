@@ -40,7 +40,7 @@ do_boot: bin/boot
 
 #### RULES TO BUILD BINARIES FROM OBJECT FILES
 
-bin/boot: $(addprefix build/, boot.o init.o malta_display.o syscall.o console.o folding.o interrupt.o bounded_fifo.o scheduler.o pcb_queue.o pcb.o api.o malta_scroller.o message_pool.o og_stdlib.o programs.o)
+bin/boot: $(addprefix build/, boot.o init.o malta_display.o syscall.o console.o folding.o interrupt.o bounded_fifo.o scheduler.o pcb_queue.o pcb.o api.o malta_scroller.o message_pool.o og_stdlib.o programs.o random.o supervision.o)
 	$(LD) $(ARCH) -o $@ $^
 
 #### Add dependency on headerfile of various tty.o files

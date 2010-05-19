@@ -23,6 +23,8 @@ typedef struct pcb_t
 				uint8_t ready : 1;
 				//Valid bit, 0 if PCB contains an active process, 1 otherwise.
 				uint8_t empty : 1;
+				//Have Supervisor
+				uint8_t supervised : 1;
 			} field;
 	} status;
 	// The current value of the registers for this process.
@@ -37,6 +39,8 @@ typedef struct pcb_t
 	int sleep;
 	// Message pool
 	//message_pool_t *message_pool; //Not really necessary since we don't use it
+	// Process supervisor to notify on exit
+	uint32_t supervisor;
 
 } pcb_t;
 

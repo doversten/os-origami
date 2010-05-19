@@ -96,12 +96,63 @@ void argumenter(int i) {
 }
 
 void randomer(uint32_t seed) {
-	og_seed(seed);
 	int i;
-	for (i = 0; i < 100; i++) {
-		og_print_int(og_random(1,10));
-		og_print_string("\n");
+	int sum = 0;
+
+	og_random_seed(seed);
+
+	for (i = 0; i < 10000; i++) {
+		sum += og_random(1,101);
 	}	
+
+	og_print_string("Seed = ");
+	og_print_int(seed);
+	og_print_string("\n");	
+
+	og_print_int(sum/10000);
+	og_print_string("\n");		
+	og_exit(0);
+}
+
+
+void slave(int arg) {
+	
+	int sleep_time = og_random(1,10000);
+	
+	og_sleep(sleep_time);
+	og_print_int(arg);
+	og_print_string("\n");
+	og_exit(0);
+
+
+}
+
+void big_boss() {
+
+	int i;
+	uint32_t pid[5];	
+	message_t message;
+
+	og_random_seed(og_system_clock());
+
+	og_print_string("Spawning my slaves! MUHAHA!\n");
+	
+	for (i = 0; i < 5; i++) {
+		pid[i] = og_spawn(slave, i, 25);
+		og_supervise(pid[i]);
+		og_print_string("slave created: ");
+		og_print_int(pid[i]);
+		og_print_string("\n");
+	}
+
+	og_print_string("Eating my slaves! MUHAHA!\n");
+	for (i = 0; i < 5; i++) {
+		og_wait(&message, 10000);
+		og_print_string("slave no: ");
+		og_print_int(message.sender);
+		og_print_string("\n");
+	}
+	
 	og_exit(0);
 }
 
@@ -116,23 +167,19 @@ void folding() {
                                                
 	og_print_string("Startup\n");
 
-	//og_display_int(-678);
-	//og_display_int(12345);
-	//og_display_string("Origami");
-	//og_display_string("LOL O ! ");
-
 	og_spawn(programs_get_program("malta_scroller"), 0, 1);
 
-   //og_spawn(parent, 15);
+   //og_spawn(parent, 0, 15);
 
-//	og_spawn(argumenter, 42, 1);
+	//og_spawn(argumenter, 42, 1);
 
-//	og_spawn(reader, 0, 15);
+	//og_spawn(reader, 0, 15);
 
-	og_spawn(randomer, 1337, 1);
-	og_spawn(randomer, 2*1337, 1);
-	og_spawn(randomer, 3*1337, 1);
-	og_spawn(randomer, 4*1337, 1);
+	/*while(1) {
+		og_spawn(randomer, og_system_clock(), 1);
+	}*/
+
+	og_spawn(big_boss, 0, 20);
 
 	while(1) {}
 

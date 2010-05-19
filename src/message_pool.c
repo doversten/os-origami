@@ -5,8 +5,7 @@
 
 static volatile message_pool_t poolArray[NUMBER_OF_PROCESSES];
 
-int message_pool_send(uint32_t receiver, char type, uint32_t message) {
-	uint32_t sender = scheduler_get_current_pid();
+int message_pool_send_from(uint32_t sender, uint32_t receiver, char type, uint32_t message) {
 	message_pool_t *pool = (message_pool_t*) &poolArray[receiver]; 
 	pcb_t *pcb = pcb_get_with_pid(receiver);
 	int i;
@@ -47,13 +46,22 @@ int message_pool_send(uint32_t receiver, char type, uint32_t message) {
 	return 0;
 }
 
+int message_pool_send(uint32_t receiver, char type, uint32_t message) {
+	uint32_t sender = scheduler_get_current_pid();
+	return message_pool_send_from(sender, receiver, type, message);
+}
+
 int message_pool_read(char type, message_t *spot, int timeout) {
 	uint32_t receiver = scheduler_get_current_pid();
 	message_pool_t *pool = (message_pool_t*) &poolArray[receiver];  
 	int i;
 	
+	if (type == 0) {
+		return -2;
+	}
+
 	for(i = 0; i < NUMBER_OF_MESSAGES; i++){
-		if (pool->messages[i].type == type) {
+		if ((type == '*' && pool->messages[i].type != 0) || pool->messages[i].type == type) {
 			//Copy the message to the save spot.
 			spot->sender = pool->messages[i].sender;
 			spot->receiver = pool->messages[i].receiver;

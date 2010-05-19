@@ -5,10 +5,16 @@
 #include "types.h"
 #include "pcb_queue.h"
 #include "scheduler.h"
+#include "message_pool.h"
 
+static uint32_t system_clock = 0;
 static pcb_t *current = NULL;
 static pcb_queue_t pcb_ready;
 static pcb_queue_t pcb_block;
+
+uint32_t scheduler_system_clock() {
+	return system_clock;
+}
 
 pcb_t *scheduler_get_current_pcb() {
 	return current;
@@ -50,6 +56,8 @@ int scheduler_set_priority(uint32_t pid, uint32_t priority) {
 
 int scheduler_kill(uint32_t pid, uint32_t exit_code) {
 
+	pcb_t *pot_supervisor;
+
 	// Get pcb
 	pcb_t *zombie_pcb = pcb_get_with_pid(pid);
 
@@ -65,6 +73,17 @@ int scheduler_kill(uint32_t pid, uint32_t exit_code) {
 	zombie_pcb->status.field.ready = 0;
 	zombie_pcb->status.field.empty = 1;
 
+	// Send a message to potensial supervisor. 
+	if (zombie_pcb->status.field.supervised) {
+		pot_supervisor = pcb_get_with_pid(zombie_pcb->supervisor);
+		if (pot_supervisor  && !pot_supervisor->status.field.empty ) {
+			message_pool_send_from(pid, zombie_pcb->supervisor, 't', exit_code);
+		}
+	} 
+
+	//Remove supervsed
+	zombie_pcb->status.field.supervised = 0;
+
 	// Currently process was running, chose a new one.
 	if (zombie_pcb == current) {
 		if(current->next == current) {
@@ -74,11 +93,9 @@ int scheduler_kill(uint32_t pid, uint32_t exit_code) {
 			// Set currently process to next process in 'chain'
 			current = current->next;
 		}
-
-	//###TODO: SEND MESSAGE TO SUPERVISOR###
- 
 		scheduler_schedule();
 	}
+
 	return 0; 		// Success code
 }
 
@@ -216,6 +233,7 @@ void scheduler_schedule() {
 }
 
 void scheduler_handle_interrupt() {
+	system_clock++;
 	scheduler_decrease_sleep();
 	scheduler_schedule();
 
