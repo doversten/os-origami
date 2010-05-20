@@ -4,6 +4,7 @@
 #include "syscall.h"
 #include "types.h"
 #include "message.h"
+#include "pids.h"
 
 int og_print_string(const char* text);
 int og_print_int(int i);
@@ -36,6 +37,6 @@ int og_unsupervise(uint32_t pid);
 int og_wait(message_t *spot, int timeout);
 
 // Process information
-uint32_t *og_get_pids();
+int og_get_pids(pids_t *pids);
 
 #endif

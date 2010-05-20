@@ -1,6 +1,9 @@
 #ifndef __TYPES__
 #define __TYPES__
 
+#define NUMBER_OF_PROCESSES 16
+#define NULL 0
+
 typedef unsigned char  uint8_t;
 typedef unsigned short uint16_t;
 typedef unsigned int   uint32_t;

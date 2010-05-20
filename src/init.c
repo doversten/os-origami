@@ -20,9 +20,6 @@ void kinit()
 	// Init malta display
 	malta_display_init();
 
-	// Init scheduler stuff
-	scheduler_init();
-
 	// Init pcb
 	pcb_init();
 

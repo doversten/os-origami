@@ -41,23 +41,11 @@ void parser (char* input){
 
 	uint32_t pid;
 	message_t msg;
-	uint32_t *pids;
-	int i;
 
-	if (og_string_equals(input, "top")) {
-		pids = og_get_pids();
-		og_print_string("NUMBER_OF_PROCESSES=");
-		og_print_int(pids[0]);
-		og_print_string("\n");
-		for(i = 1; i <= pids[0]; i++) {
-			og_print_int(pids[i]);
-			og_print_string("\n");
-		}
-	} else if (programs_get_program(input)) {
+	if (programs_get_program(input)) {
 		pid = og_spawn(programs_get_program(input), 0, PROG_PRIO);
 		og_supervise(pid);
-		while(og_wait(&msg, SHELL_WAIT)) {
-		}
+		while(og_wait(&msg, SHELL_WAIT)) {}
 	}
 
 	shell();

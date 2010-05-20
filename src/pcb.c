@@ -2,9 +2,35 @@
 #include "types.h"
 #include "stack.h"
 #include "message_pool.h"
+#include "pids.h"
 
 static volatile pcb_t pcbArray[NUMBER_OF_PROCESSES];
 static volatile stack_t stackArray[NUMBER_OF_PROCESSES];
+
+/*char *pcb_get_name(uint32_t pid) {
+	pcb_t *pcb = pcb_get_with_pid(pid);
+	if(!pcb) {
+		return NULL;
+	}
+	if(pcb->status.field.empty) {
+		return NULL;
+	}
+	return pcb->name;
+}*/
+
+int pcb_get_pids(pids_t *pids) {
+	int i;
+	pids->length = 0;
+	for(i = 0; i < NUMBER_OF_PROCESSES; i++) {
+		if(pcbArray[i].status.field.empty) {
+			continue;
+		} else {
+			pids->elements[pids->length] = pcbArray[i].pid;
+			pids->length++;
+		}
+	}
+	return 0;
+}
 
 pcb_t *pcb_get_with_pid(uint32_t pid) {
 

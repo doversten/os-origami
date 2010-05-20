@@ -7,6 +7,8 @@ void programs_init () {
 
 	int n = 0;
 
+	// TODO DEBUG THESE Should be golobaly declared, not on the stack, danger danger
+
 	programs[n][0] = (void*)"malta_scroller";
 	programs[n][1] = (void*) malta_scroller;
 	n++;
@@ -22,8 +24,20 @@ void programs_init () {
 	programs[n][0] = (void*)"dining";
 	programs[n][1] = (void*) waiter;
 	n++;
+	programs[n][0] = (void*)"philosopher";
+	programs[n][1] = (void*) philosopher;
+	n++;
 	programs[n][0] = (void*)"folding";
 	programs[n][1] = (void*) folding;
+	n++;
+	programs[n][0] = (void*)"top";
+	programs[n][1] = (void*) top;
+	n++;
+	programs[n][0] = (void*)"ring";
+	programs[n][1] = (void*) ring;
+	n++;
+	programs[n][0] = (void*)"ring_actor";
+	programs[n][1] = (void*) ring_actor;
 	n++;
 
 }
