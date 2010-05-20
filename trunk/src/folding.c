@@ -193,6 +193,7 @@ void big_boss() {
 }
 
 void waiter();
+void ring();
 
 void df_loop() {
 	message_t msg;
