@@ -1,13 +1,16 @@
-#include "../include/shell.h"
-#include "fibonacci.c"
-#include "increment.c"
+#include "api.h"
+#include "programs.h"
+#include "og_stdlib.h"
+#define SHELL_PRIO 20
+#define SHELL_WAIT 1000000
+#define PROG_PRIO 30
 
-void thotin(){
-	og_print_string("Welcome to thotin, write 'EXIT' to exit the shell!\n\n");
-	shell();
-}
+void shell();
 
-int compare(char* a, char* b){
+/*#include "fibonacci.c"
+#include "increment.c"*/
+
+/*int compare(char* a, char* b){
 	int i = 0;
 	while(a[i]&&b[i]){
 		if (a[i]!=b[i]){
@@ -21,16 +24,9 @@ int compare(char* a, char* b){
 	}
 
 	return 1;
-}
+}*/
 
-void shell(){
-	char input[256];
-	og_print_string("thotin > ");
-	og_read_line(input, 256);
-	parser(input);
-}
-
-int parser_int (char* a){
+/*int parser_int (char* a){
 	int i = 0;
 	int ack = 0;
 	
@@ -39,11 +35,34 @@ int parser_int (char* a){
 		i++;
 	}
 	return ack;
-}
+}*/
 
 void parser (char* input){
 
-	if (compare(input, "inc")) {
+	uint32_t pid;
+	message_t msg;
+	uint32_t *pids;
+	int i;
+
+	if (og_string_equals(input, "top")) {
+		pids = og_get_pids();
+		og_print_string("NUMBER_OF_PROCESSES=");
+		og_print_int(pids[0]);
+		og_print_string("\n");
+		for(i = 1; i <= pids[0]; i++) {
+			og_print_int(pids[i]);
+			og_print_string("\n");
+		}
+	} else if (programs_get_program(input)) {
+		pid = og_spawn(programs_get_program(input), 0, PROG_PRIO);
+		og_supervise(pid);
+		while(og_wait(&msg, SHELL_WAIT)) {
+		}
+	}
+
+	shell();
+
+	/*if (compare(input, "inc")) {
 		og_print_string("Print the number you want to increment to: ");
 		char text[8];
 		og_read_line(text, 8);
@@ -64,13 +83,22 @@ void parser (char* input){
 	} else {
 		og_print_string(input);
 		og_print_string(": not found\n");
-	}
+	}*/
 	
-
-	shell();
 }
 
+void shell(){
+	char input[256];
+	og_print_string("thotin > ");
+	og_read_line(input, 256);
+	parser(input);
+}
 
+void thotin(){
+	og_set_priority(og_get_pid(), SHELL_PRIO);
+	og_print_string("Welcome to thotin, write 'EXIT' to exit the shell!\n\n");
+	shell();
+}
 
 
 

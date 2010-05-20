@@ -10,6 +10,21 @@ void programs_init () {
 	programs[n][0] = (void*)"malta_scroller";
 	programs[n][1] = (void*) malta_scroller;
 	n++;
+	programs[n][0] = (void*)"thotin";
+	programs[n][1] = (void*) thotin;
+	n++;
+	programs[n][0] = (void*)"fib";
+	programs[n][1] = (void*) fib;
+	n++;
+	programs[n][0] = (void*)"inc";
+	programs[n][1] = (void*) inc;
+	n++;
+	programs[n][0] = (void*)"dining";
+	programs[n][1] = (void*) waiter;
+	n++;
+	programs[n][0] = (void*)"folding";
+	programs[n][1] = (void*) folding;
+	n++;
 
 }
 
@@ -24,5 +39,20 @@ void *programs_get_program(char *programID){
 	}
 
 	return 0; //TODO:fix to return NULL
+
+}
+
+char *programs_get_name(void (*code) ()) {
+
+	int i = 0;
+	
+	for(i =0; i < NUMBER_OF_PROGRAMS; i++) {
+		if(code == programs[i][1]) {
+			return programs[i][0];
+		}
+	}
+
+	console_print_string(">>>ERROR: Couldn't find process name\n");
+	return "\0"; //TODO:fix to return NULL	
 
 }

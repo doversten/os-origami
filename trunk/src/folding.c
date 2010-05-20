@@ -237,7 +237,31 @@ void folding() {
 	//og_spawn(big_boss, 0, 20);
 	//og_spawn(debug_prog, 0, 2);
 	//og_spawn(dining_start, 0, 3);
-	og_spawn(df_loop, 0, 3);
+	//og_spawn(df_loop, 0, 3);
+	og_print_string("thotin=");
+	og_print_int(programs_get_program("thotin"));
+	og_print_string("\n");
+	og_print_string("malta_scroller=");
+	og_print_int(programs_get_program("malta_scroller"));
+	og_print_string("\n");
+	og_print_string("fib=");
+	og_print_int(programs_get_program("fib"));
+	og_print_string("\n");
+	og_print_string("inc=");
+	og_print_int(programs_get_program("inc"));
+	og_print_string("\n");
+	og_print_string("dining=");
+	og_print_int(programs_get_program("dining"));
+	og_print_string("\n");
+	og_print_string("folding=");
+	og_print_int(programs_get_program("folding"));
+
+
+	og_print_string("\n");
+	og_print_string("\n");
+	og_print_string("\n");
+
+	og_spawn(programs_get_program("thotin"), 0, 10);
 
 	while(1) {}
 

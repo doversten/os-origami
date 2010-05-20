@@ -3,10 +3,15 @@
 
 #include "types.h"
 
-#define NUMBER_OF_PROGRAMS 1
+#define NUMBER_OF_PROGRAMS 6
 
 //User programs
 void malta_scroller();
+void thotin();
+void fib();
+void inc();
+void waiter();
+void folding();
 
 //Meta-programs counters 
 void programs_init();

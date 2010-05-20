@@ -41,6 +41,8 @@ typedef struct pcb_t
 	//message_pool_t *message_pool; //Not really necessary since we don't use it
 	// Process supervisor to notify on exit
 	uint32_t supervisor;
+	// Program name
+	char* name;
 
 } pcb_t;
 
