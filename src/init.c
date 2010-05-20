@@ -21,6 +21,9 @@ void kinit()
 	malta_display_init();
 
 	// Init scheduler stuff
+	scheduler_init();
+
+	// Init pcb
 	pcb_init();
 
 	// Mother of all process

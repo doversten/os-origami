@@ -46,3 +46,42 @@ int og_string_equals(char* a, char* b) {
 
 	return 1;
 }
+
+void og_string_concat(char *buffer, char *a, char *b) {
+	int i = 0;
+	int j = 0;
+	while(a[i]) {
+		buffer[j] = a[i];
+		i++;
+		j++;
+	}
+	i = 0;
+	while(b[i]) {
+		buffer[j] = b[i];
+		i++;
+		j++;
+	}
+	buffer[j] = 0;
+}
+
+void og_int_to_string(char *buffer, int i) {
+	int length = 0;
+	int reminder = i;
+
+	if(i == 0) {
+		buffer[0] = '0';
+		buffer[1] = 0;
+		return;
+	}
+
+	while(reminder > 0) {
+		length++;
+		reminder /= 10;
+	}
+	buffer[length] = 0;
+	while(length > 0) {
+		buffer[length-1] = '0' + (i % 10);
+		i /= 10;
+		length--;
+	}
+}

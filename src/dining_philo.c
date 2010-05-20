@@ -187,57 +187,16 @@ void dining_ph(){
 
 */
 
-
-
-void concat(char *buffer, char *a, char *b) {
-	int i = 0;
-	int j = 0;
-	while(a[i]) {
-		buffer[j] = a[i];
-		i++;
-		j++;
-	}
-	i = 0;
-	while(b[i]) {
-		buffer[j] = b[i];
-		i++;
-		j++;
-	}
-	buffer[j] = 0;
-}
-
-void int_to_string(char *buffer, int i) {
-	int length = 0;
-	int reminder = i;
-
-	if(i == 0) {
-		buffer[0] = '0';
-		buffer[1] = 0;
-		return;
-	}
-
-	while(reminder > 0) {
-		length++;
-		reminder /= 10;
-	}
-	buffer[length] = 0;
-	while(length > 0) {
-		buffer[length-1] = '0' + (i % 10);
-		i /= 10;
-		length--;
-	}
-}
-
 void say(int n, char *text) {
 	char buffer[256];
 	char number[64];
-	int_to_string(number, n);
+	og_int_to_string(number, n);
 
-	concat(buffer, "Philosofer", " ");
-	concat(buffer, buffer, number);
-	concat(buffer, buffer, " ");
-	concat(buffer, buffer, text);
-	concat(buffer, buffer, "\n");
+	og_string_concat(buffer, "Philosofer", " ");
+	og_string_concat(buffer, buffer, number);
+	og_string_concat(buffer, buffer, " ");
+	og_string_concat(buffer, buffer, text);
+	og_string_concat(buffer, buffer, "\n");
 
 	og_print_string(buffer);
 }

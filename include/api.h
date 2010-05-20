@@ -35,4 +35,7 @@ int og_supervise(uint32_t pid);
 int og_unsupervise(uint32_t pid);
 int og_wait(message_t *spot, int timeout);
 
+// Process information
+uint32_t *og_get_pids();
+
 #endif

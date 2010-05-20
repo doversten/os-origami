@@ -96,3 +96,8 @@ int og_unsupervise(uint32_t pid) {
 int og_wait(message_t *spot, int timeout) {
 	return og_syscall((uint32_t) message_pool_read, (uint32_t) 't', (uint32_t) spot,(uint32_t) timeout);
 }
+
+// Process information
+uint32_t *og_get_pids() {
+	return og_syscall((uint32_t) scheduler_get_pids, 0, 0, 0);
+}
