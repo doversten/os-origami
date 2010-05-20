@@ -8,6 +8,7 @@
 #include "message.h"
 #include "random.h"
 #include "supervision.h"
+#include "pids.h"
 
 int og_print_string(const char* text) {
 	return og_syscall((uint32_t) console_print_string, (uint32_t) text, 0, 0);
@@ -98,6 +99,6 @@ int og_wait(message_t *spot, int timeout) {
 }
 
 // Process information
-uint32_t *og_get_pids() {
-	return og_syscall((uint32_t) scheduler_get_pids, 0, 0, 0);
+int og_get_pids(pids_t *pids) {
+	return og_syscall((uint32_t) pcb_get_pids, (uint32_t) pids, 0, 0);
 }

@@ -119,6 +119,8 @@ void console_handle_interrupt() {
 		}
 	}*/
 
+
+
 	if (bfifo[PRINT_BUFFER_INPUT].length > 0 && console->lsr.field.thre) {
 		console->thr = bfifo_get(&bfifo[PRINT_BUFFER_INPUT]);
 		if (bfifo[PRINT_BUFFER_INPUT].length == 0 && input_in_progress) {

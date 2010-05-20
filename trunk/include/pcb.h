@@ -5,11 +5,7 @@
 #include "registers.h"
 #include "stack.h"
 #include "message_pool.h"
-
-#define NUMBER_OF_PROCESSES 16
-#define NULL 0
-
-
+#include "pids.h"
 
 typedef struct pcb_t
 {
@@ -54,5 +50,7 @@ pcb_t *pcb_get();
 void pcb_free(pcb_t *pcb);
 // Get the pcb that contains a process with speciefied pid.	
 pcb_t *pcb_get_with_pid(uint32_t pid);
+// Process information
+int pcb_get_pids(pids_t *pids);
 
 #endif

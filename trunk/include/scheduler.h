@@ -45,9 +45,6 @@ int scheduler_set_priority(uint32_t pid, uint32_t priority);
 // System clock
 uint32_t scheduler_system_clock();
 
-// Process information
-uint32_t *scheduler_get_pids();
-
 // Debug
 void scheduler_debug();
 

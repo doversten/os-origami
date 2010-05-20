@@ -11,20 +11,6 @@ static uint32_t system_clock = 0;
 static pcb_t *current = NULL;
 static pcb_queue_t pcb_ready;
 static pcb_queue_t pcb_block;
-static uint32_t pids[NUMBER_OF_PROCESSES + 1]; //To keep track of active processes
-
-
-uint32_t *scheduler_get_pids() {
-	return pids;
-}
-
-void scheduler_init() {
-	int i;
-	pids[0] = NUMBER_OF_PROCESSES;
-	for(i = 0; i < NUMBER_OF_PROCESSES; i++) {
-		pids[i+1] = -1;
-	}
-}
 
 void scheduler_debug() {
 	pcb_queue_print(&pcb_block);
@@ -82,9 +68,6 @@ int scheduler_kill(uint32_t pid, uint32_t exit_code) {
 	if (zombie_pcb->status.field.empty) {
 		return -1;		// Failcode
 	}
-
-	// Set process pid not active
-	pids[zombie_pcb->pid+1] = -1;
 
 	// Remove pcb from scheduler
 	pcb_queue_remove(&pcb_ready, pid);
@@ -152,7 +135,6 @@ int scheduler_create_process(void (*code)(), uint32_t argument, uint32_t priorit
 	new_pcb->status.field.ready = 1;
 
 	// Set process pid active
-	pids[new_pcb->pid+1] = new_pcb->pid;
 	new_pcb->name = programs_get_name(code);
 
 	// Add the process to the ready queue
