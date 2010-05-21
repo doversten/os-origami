@@ -212,6 +212,66 @@ void debug_prog() {
 	}
 }
 
+void reador() {
+	char buffer[32];
+	uint32_t pid = og_get_pid();
+
+	while(1) {
+
+		og_read_line(buffer, 32);
+		og_print_int(pid);
+		og_print_string(" read: ");
+		og_print_string(buffer);
+		og_print_string("\n");
+
+	}
+
+	og_exit(0);
+}
+
+void spawnor() {
+	og_spawn(reador, 1, 4);
+	og_spawn(reador, 2, 4);
+	og_spawn(reador, 3, 4);
+	og_spawn(reador, 4, 4);
+	og_spawn(reador, 5, 4);
+	og_spawn(reador, 6, 4);
+	og_spawn(reador, 7, 4);
+	og_spawn(reador, 8, 4);
+	og_exit(0);
+}
+
+void creator() {
+	char buffer[32];
+	og_spawn(spawnor, 0, 1);
+	
+	while(1) {
+		og_read_line(buffer, 32);
+		og_print_string("creator: ");
+		og_print_string(buffer);
+		og_print_string("\n");
+	}
+	og_exit(0);
+}
+
+void block_test_child() {
+
+	char buffer[64];
+
+	og_read_line(buffer, 64);
+
+	while(1) {
+		og_print_string("I'm awake!\n");
+		og_sleep(1000);
+	}
+}
+
+void block_test() {
+	og_spawn(block_test_child, 0, 2);
+	og_spawn(block_test_child, 0, 2);
+	og_exit(0);
+}
+
 void folding() {
 
 	og_print_string("                   _____ ______  _____  _____   ___  ___  ___ _____ \n");
@@ -223,7 +283,7 @@ void folding() {
                                                
 	og_print_string("Startup\n");
 
-	og_spawn(programs_get_program("malta_scroller"), 0, 1);
+	og_spawn(programs_get_program("malta_scroller_loop"), 1, 1);
 
    //og_spawn(parent, 0, 15);
 
@@ -262,7 +322,9 @@ void folding() {
 	og_print_string("\n");
 	og_print_string("\n");*/
 
-	og_spawn(programs_get_program("thotin"), 0, 10);
+	//og_spawn(spawnor, 0, 1);
+	//og_spawn(block_test, 0, 1);
+	og_spawn(programs_get_program("thotin"), 0, 2);
 
 	while(1) {}
 

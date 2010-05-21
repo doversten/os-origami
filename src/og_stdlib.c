@@ -61,7 +61,7 @@ void og_string_concat(char *buffer, char *a, char *b) {
 		i++;
 		j++;
 	}
-	buffer[j] = 0;
+	buffer[j] = '\0';
 }
 
 void og_int_to_string(char *buffer, int i) {

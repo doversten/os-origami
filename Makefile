@@ -40,12 +40,12 @@ do_boot: bin/boot
 
 #### RULES TO BUILD BINARIES FROM OBJECT FILES
 
-bin/boot: $(addprefix build/, boot.o init.o malta_display.o syscall.o console.o folding.o interrupt.o bounded_fifo.o scheduler.o pcb_queue.o pcb.o api.o malta_scroller.o message_pool.o og_stdlib.o programs.o random.o supervision.o dining_philo.o increment.o fibonacci.o shell.o top.o ring.o)
+bin/boot: $(addprefix build/, boot.o init.o malta_display.o syscall.o console.o folding.o interrupt.o scheduler.o pcb_queue.o pcb.o api.o malta_scroller.o message_pool.o og_stdlib.o programs.o random.o supervision.o dining_philo.o increment.o fibonacci.o shell.o top.o ring.o input_queue.o char_fifo.o)
 	$(LD) $(ARCH) -o $@ $^
 
 #### Add dependency on headerfile of various tty.o files
 
-build/console.o: src/console.c include/console.h include/ns16550.h include/bounded_fifo.h
+build/console.o: src/console.c include/console.h include/ns16550.h
 	$(CC) $(ARCH) $(CFLAGS)  -c $< -o $@	
 
 build/main_loop.o: src/main_loop.c include/console.h include/scheduler.h  include/pcb.h

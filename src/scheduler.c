@@ -140,6 +140,10 @@ int scheduler_create_process(void (*code)(), uint32_t argument, uint32_t priorit
 	// Add the process to the ready queue
 	pcb_queue_add(&pcb_ready, new_pcb);
 
+	// RESET STUFF, OH WHY DIDN'T WE DO THIS AT ONCE
+	// TODO DEBUG Other resets, messages etc...
+	new_pcb->sleep = 0;
+
 	// New process higher priority?
 	if (!current || priority < current->priority) {
 		current = NULL;
@@ -151,6 +155,10 @@ int scheduler_create_process(void (*code)(), uint32_t argument, uint32_t priorit
 
 
 int scheduler_block(uint32_t pid) {
+
+	//console_print_string("<scheduler> blocking ");
+	//console_print_int(pid);
+	//console_print_string("\n");
 
 	pcb_t *pcb =pcb_get_with_pid(pid);
 
@@ -174,6 +182,10 @@ int scheduler_block(uint32_t pid) {
 }
 
 int scheduler_unblock(uint32_t pid) {
+
+	//console_print_string("<scheduler> unblocking ");
+	//console_print_int(pid);
+	//console_print_string("\n");
 
 	pcb_t *pcb = pcb_get_with_pid(pid);
 

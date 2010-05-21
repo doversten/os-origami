@@ -260,10 +260,8 @@ void philosopher(int arg) {
 	og_exit(0);
 }
 
-void waiter() {
+void waiter(int cycles) {
 
-	char buffer[12];
-	int cycles;
 	int forks[NUMBER_OF_PHILOSOPHERS];
 	uint32_t pids[NUMBER_OF_PHILOSOPHERS];
 	int done = 0;
@@ -280,14 +278,6 @@ void waiter() {
 	// Init forks
 	for (i = 0; i < NUMBER_OF_PHILOSOPHERS; i++) {
 		forks[i] = 1;
-	}
-
-	// Get number of cycles
-	buffer[0] = 0;
-	while(og_parse_int(buffer, &cycles) || cycles < 1) {
-		og_print_string("The number of cycles must be a positive integer\n");
-		og_print_string("How many cycles do you want to execute: ");
-		og_read_line(buffer, 12);
 	}
 
 	// Spawn children
@@ -349,4 +339,21 @@ void waiter() {
 
 	og_exit(0);
 
+}
+
+void dining_philosophers() {
+
+	char buffer[12];
+	int cycles;
+
+	// Get number of cycles
+	buffer[0] = 0;
+	while(og_parse_int(buffer, &cycles) || cycles < 1) {
+		og_print_string("The number of cycles must be a positive integer\n");
+		og_print_string("How many cycles do you want to execute: ");
+		og_read_line(buffer, 12);
+	}
+
+	og_spawn(waiter, cycles, 10);
+	og_exit(0);
 }
