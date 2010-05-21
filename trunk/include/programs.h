@@ -3,14 +3,16 @@
 
 #include "types.h"
 
-#define NUMBER_OF_PROGRAMS 10
+#define NUMBER_OF_PROGRAMS 12
 
 //User programs
 void malta_scroller();
+void malta_scroller_loop(int ask);
 void thotin();
 void fib();
 void inc();
-void waiter();
+void dining_philosophers();
+void waiter(int cycles);
 void philosopher();
 void ring();
 void ring_actor();

@@ -7,16 +7,25 @@
 static volatile pcb_t pcbArray[NUMBER_OF_PROCESSES];
 static volatile stack_t stackArray[NUMBER_OF_PROCESSES];
 
-/*char *pcb_get_name(uint32_t pid) {
-	pcb_t *pcb = pcb_get_with_pid(pid);
-	if(!pcb) {
-		return NULL;
+int pcb_get_name(uint32_t pid, char *name, int nameSize) {
+	int i = 0;
+	if(pid >= NUMBER_OF_PROCESSES) {
+		return -1;
 	}
-	if(pcb->status.field.empty) {
-		return NULL;
+	if(pcbArray[pid].status.field.empty) {
+		return -2;
 	}
-	return pcb->name;
-}*/
+	while(i < nameSize-1) {
+		if(pcbArray[pid].name[i]) {
+			name[i] = pcbArray[pid].name[i];
+			i++;
+		} else {
+			name[i] = '\0';
+			break;
+		}
+	}
+	return 0;
+}
 
 int pcb_get_pids(pids_t *pids) {
 	int i;

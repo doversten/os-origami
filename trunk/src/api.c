@@ -19,10 +19,11 @@ int og_print_int(int i) {
 }
 
 int og_read_line(char* text, int max) {
-	while(og_syscall((uint32_t) console_read_line, (uint32_t) text, (uint32_t) max, 0)) {
-		og_sleep(100);
-	}
-	return 0;
+	//while(og_syscall((uint32_t) console_read_line, (uint32_t) text, (uint32_t) max, 0)) {
+	//	og_sleep(100);
+	//}
+	//return 0;
+	return og_syscall((uint32_t) console_read_line, (uint32_t) text, (uint32_t) max, 0);
 }
 
 int og_display_string(const char* text) {
@@ -101,4 +102,8 @@ int og_wait(message_t *spot, int timeout) {
 // Process information
 int og_get_pids(pids_t *pids) {
 	return og_syscall((uint32_t) pcb_get_pids, (uint32_t) pids, 0, 0);
+}
+
+int og_get_process_name(uint32_t pid, char* name, int nameSize) {
+	return og_syscall((uint32_t) pcb_get_name, pid, (uint32_t) name, (uint32_t) nameSize);
 }

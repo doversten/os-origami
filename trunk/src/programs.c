@@ -2,6 +2,7 @@
 #include "og_stdlib.h"
 
 void *programs[NUMBER_OF_PROGRAMS][2];
+void *unknown = "<unknown>";
 
 void programs_init () {
 
@@ -9,6 +10,9 @@ void programs_init () {
 
 	// TODO DEBUG THESE Should be golobaly declared, not on the stack, danger danger
 
+	programs[n][0] = (void*)"malta_scroller_loop";
+	programs[n][1] = (void*) malta_scroller_loop;
+	n++;
 	programs[n][0] = (void*)"malta_scroller";
 	programs[n][1] = (void*) malta_scroller;
 	n++;
@@ -21,7 +25,10 @@ void programs_init () {
 	programs[n][0] = (void*)"inc";
 	programs[n][1] = (void*) inc;
 	n++;
-	programs[n][0] = (void*)"dining";
+	programs[n][0] = (void*)"dining_philosophers";
+	programs[n][1] = (void*) dining_philosophers;
+	n++;
+	programs[n][0] = (void*)"waiter";
 	programs[n][1] = (void*) waiter;
 	n++;
 	programs[n][0] = (void*)"philosopher";
@@ -67,6 +74,6 @@ char *programs_get_name(void (*code) ()) {
 	}
 
 	console_print_string(">>>ERROR: Couldn't find process name\n");
-	return "\0"; //TODO:fix to return NULL	
+	return unknown; //TODO:fix to return NULL?
 
 }
