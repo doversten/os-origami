@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-#define NUMBER_OF_PROGRAMS 15
+#define NUMBER_OF_PROGRAMS 16
 
 //User programs
 void malta_scroller();
@@ -20,6 +20,7 @@ void folding();
 void top();
 void change_priority();
 void supervisor_test();
+void supervisor();
 void stupid();
 
 //Meta-programs counters 

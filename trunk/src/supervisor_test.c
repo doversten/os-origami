@@ -7,9 +7,7 @@ void stupid(){
 		og_sleep(1000);
 	}
 }
-
-
-int supervisor_test(){
+void supervisor(){
 	message_t msg;
 	int prio = og_get_priority(og_get_pid());
 	uint32_t pid = og_spawn(stupid,0,prio+1);
@@ -19,4 +17,11 @@ int supervisor_test(){
 		og_print_string("Mitt barn dog, skapar nytt\n");
 		pid = og_spawn(stupid,0,prio+1);
 	}
+}
+
+
+int supervisor_test(){
+
+	int prio = og_get_priority(og_get_pid());
+	return og_spawn(supervisor,0,prio);
 }
