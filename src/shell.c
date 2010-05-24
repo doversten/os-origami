@@ -25,6 +25,8 @@ void shell_loop (){
 			pid = og_spawn(programs_get_program(input), 0, PROG_PRIO);
 			og_supervise(pid);
 			while(og_wait(&msg, SHELL_WAIT)) {}
+		} else {
+			og_print_string("[No such program exists]\n");
 		}
 
 	}
