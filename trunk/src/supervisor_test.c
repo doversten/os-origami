@@ -20,8 +20,9 @@ void supervisor(){
 }
 
 
-int supervisor_test(){
+void supervisor_test(){
 
 	int prio = og_get_priority(og_get_pid());
-	return og_spawn(supervisor,0,prio);
+	og_spawn(supervisor,0,prio);
+	og_exit(0);
 }
