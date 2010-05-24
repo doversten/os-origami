@@ -1,3 +1,5 @@
+#include "types.h"
+
 int og_parse_int(char* text, int* n) {
 	int i = 0;
 	int ack = 0;
@@ -83,5 +85,43 @@ void og_int_to_string(char *buffer, int i) {
 		buffer[length-1] = '0' + (i % 10);
 		i /= 10;
 		length--;
+	}
+}
+
+void og_uint_to_string(char *buffer, uint32_t i) {
+	int length = 0;
+	uint32_t reminder = i;
+
+	if(i == 0) {
+		buffer[0] = '0';
+		buffer[1] = 0;
+		return;
+	}
+
+	while(reminder > 0) {
+		length++;
+		reminder /= 10;
+	}
+	buffer[length] = 0;
+	while(length > 0) {
+		buffer[length-1] = '0' + (i % 10);
+		i /= 10;
+		length--;
+	}
+}
+
+void og_fill_string(char *buffer, int max, char c) {
+
+	int i = 0;
+
+	while (buffer[i] && i <= max) {
+		i++;
+	}
+	while (i <= max) {
+		buffer[i] = c;
+		if (i == max) {
+			buffer[i] = '\0';
+		}
+		i++;
 	}
 }

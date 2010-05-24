@@ -285,46 +285,7 @@ void folding() {
 
 	og_spawn(programs_get_program("malta_scroller_loop"), 1, 1);
 
-   //og_spawn(parent, 0, 15);
-
-	//og_spawn(argumenter, 42, 1);
-
-	//og_spawn(reader, 0, 15);
-
-	/*while(1) {
-		og_spawn(randomer, og_system_clock(), 1);
-	}*/
-
-	//og_spawn(big_boss, 0, 20);
-	//og_spawn(debug_prog, 0, 2);
-	//og_spawn(dining_start, 0, 3);
-	//og_spawn(df_loop, 0, 3);
-	/*og_print_string("thotin=");
-	og_print_int(programs_get_program("thotin"));
-	og_print_string("\n");
-	og_print_string("malta_scroller=");
-	og_print_int(programs_get_program("malta_scroller"));
-	og_print_string("\n");
-	og_print_string("fib=");
-	og_print_int(programs_get_program("fib"));
-	og_print_string("\n");
-	og_print_string("inc=");
-	og_print_int(programs_get_program("inc"));
-	og_print_string("\n");
-	og_print_string("dining=");
-	og_print_int(programs_get_program("dining"));
-	og_print_string("\n");
-	og_print_string("folding=");
-	og_print_int(programs_get_program("folding"));
-
-
-	og_print_string("\n");
-	og_print_string("\n");
-	og_print_string("\n");*/
-
-	//og_spawn(spawnor, 0, 1);
-	//og_spawn(block_test, 0, 1);
-	og_spawn(programs_get_program("thotin"), 0, 2);
+	og_spawn(programs_get_program("shell"), 0, 2);
 
 	while(1) {}
 

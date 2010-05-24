@@ -16,8 +16,8 @@ void programs_init () {
 	programs[n][0] = (void*)"malta_scroller";
 	programs[n][1] = (void*) malta_scroller;
 	n++;
-	programs[n][0] = (void*)"thotin";
-	programs[n][1] = (void*) thotin;
+	programs[n][0] = (void*)"shell";
+	programs[n][1] = (void*) shell;
 	n++;
 	programs[n][0] = (void*)"fib";
 	programs[n][1] = (void*) fib;
@@ -46,6 +46,10 @@ void programs_init () {
 	programs[n][0] = (void*)"ring_actor";
 	programs[n][1] = (void*) ring_actor;
 	n++;
+	programs[n][0] = (void*)"change_priority";
+	programs[n][1] = (void*) change_priority;
+	n++;
+
 
 }
 
