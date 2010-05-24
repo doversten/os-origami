@@ -14,19 +14,13 @@ void top() {
 	//og_print_int(pids[0]);
 	//og_print_string("\n");
 
-	og_print_string("PID  Name                Priority    State\n");
+	og_print_string("PID  Program Name        Priority    State\n");
+	og_print_string("----------------------------------------------\n");
   
 	for(i = 0; i < pids.length; i++) {
 		buffer[0] = '\0';
 		og_get_process_name(pids.elements[i], name, 128);
 		pid = pids.elements[i];
-
-
-
-		/*og_print_int(pid);
-		og_print_string(" - ");
-		og_print_string(name);
-		og_print_string("\n");*/
 
 		og_uint_to_string(numbers, pid);
 		og_fill_string(numbers, 5, ' ');

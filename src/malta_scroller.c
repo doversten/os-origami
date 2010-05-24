@@ -63,8 +63,8 @@ void malta_scroller() {
 	}
 
 	if(i == pids.length) {
-		og_print_string("Could not find malta scroller loop process\n");
-		og_exit(-1);
+		og_print_string("[Could not find malta scroller loop process; starting new scroller]\n");
+		pid = og_spawn(malta_scroller_loop, 0, 1);
 	}
 
 	og_print_string("Enter text to scroll: ");
