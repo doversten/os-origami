@@ -5,13 +5,18 @@
 #define SHELL_WAIT 1000000
 #define PROG_PRIO 30
 
-void shell();
+//void shell_loop();
 
 
-void parser (char* input){
+void shell_loop (){
 
 	uint32_t pid;
 	message_t msg;
+	char input[256];
+	og_print_string("crane> ");
+	og_read_line(input, 256);
+	
+	//if(og_string_equals()
 
 	if (programs_get_program(input)) {
 		pid = og_spawn(programs_get_program(input), 0, PROG_PRIO);
@@ -23,12 +28,12 @@ void parser (char* input){
 	
 }
 
-void shell_loop(){
+/*void shell_loop(){
 	char input[256];
 	og_print_string("crane> ");
 	og_read_line(input, 256);
 	parser(input);
-}
+}*/
 
 void shell(){
 	og_set_priority(og_get_pid(), SHELL_PRIO);
