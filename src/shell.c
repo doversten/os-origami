@@ -16,7 +16,9 @@ void shell_loop (){
 	og_print_string("crane> ");
 	og_read_line(input, 256);
 	
-	//if(og_string_equals()
+	if(og_string_equals(input, "EXIT")) {
+		og_exit(0);	
+	}
 
 	if (programs_get_program(input)) {
 		pid = og_spawn(programs_get_program(input), 0, PROG_PRIO);
