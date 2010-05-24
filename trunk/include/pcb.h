@@ -53,5 +53,6 @@ pcb_t *pcb_get_with_pid(uint32_t pid);
 // Process information
 int pcb_get_pids(pids_t *pids);
 int pcb_get_name(uint32_t pid, char *name, int nameSize);
+int pcb_get_priority(uint32_t pid);
 
 #endif

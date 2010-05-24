@@ -27,6 +27,14 @@ pcb_t *scheduler_get_current_pcb() {
 uint32_t scheduler_get_current_pid() {
 	return current->pid;
 }
+int scheduler_get_state(uint32_t pid) {
+	if (pcb_queue_contains(&pcb_ready, pid))
+		return 0;
+	else if (pcb_queue_contains(&pcb_block, pid))
+		return 1;
+	else
+		return -1;
+}
 
 int scheduler_set_priority(uint32_t pid, uint32_t priority) {
 	pcb_t	*pcb = pcb_get_with_pid(pid);

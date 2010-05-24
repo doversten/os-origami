@@ -39,5 +39,7 @@ int og_wait(message_t *spot, int timeout);
 // Process information
 int og_get_pids(pids_t *pids);
 int og_get_process_name(uint32_t pid, char* name, int nameSize);
+int og_get_priority(uint32_t pid);
+int og_get_scheduler_state(uint32_t pid);
 
 #endif

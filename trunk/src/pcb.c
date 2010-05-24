@@ -7,6 +7,17 @@
 static volatile pcb_t pcbArray[NUMBER_OF_PROCESSES];
 static volatile stack_t stackArray[NUMBER_OF_PROCESSES];
 
+int pcb_get_priority(uint32_t pid){
+	if(pid >= NUMBER_OF_PROCESSES) {
+		return -1;
+	}
+	if(pcbArray[pid].status.field.empty) {
+		return -2;
+	}
+
+	return pcbArray[pid].priority;
+}
+
 int pcb_get_name(uint32_t pid, char *name, int nameSize) {
 	int i = 0;
 	if(pid >= NUMBER_OF_PROCESSES) {

@@ -48,4 +48,6 @@ uint32_t scheduler_system_clock();
 // Debug
 void scheduler_debug();
 
+int scheduler_get_state(uint32_t pid);
+
 #endif

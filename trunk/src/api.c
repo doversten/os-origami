@@ -107,3 +107,11 @@ int og_get_pids(pids_t *pids) {
 int og_get_process_name(uint32_t pid, char* name, int nameSize) {
 	return og_syscall((uint32_t) pcb_get_name, pid, (uint32_t) name, (uint32_t) nameSize);
 }
+
+int og_get_priority(uint32_t pid){
+	return og_syscall((uint32_t) pcb_get_priority, (uint32_t) pid, 0, 0);
+}
+
+int og_get_scheduler_state(uint32_t pid){
+	return og_syscall((uint32_t) scheduler_get_state, (uint32_t) pid, 0, 0);
+}
