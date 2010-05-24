@@ -5,6 +5,22 @@
 
 static volatile message_pool_t poolArray[NUMBER_OF_PROCESSES];
 
+int message_pool_reset(uint32_t pid){
+	int i = 0;
+	message_pool_t *pool = (message_pool_t*) &poolArray[pid];
+
+	pool->save_spot = NULL;
+	pool->waiting_for_type = 0;
+	
+	for(; i < NUMBER_OF_MESSAGES; i++){
+		pool->messages[i].sender = 0;
+		pool->messages[i].receiver = 0;
+		pool->messages[i].type = 0;
+		pool->messages[i].message = 0;
+	}
+
+}
+
 int message_pool_send_from(uint32_t sender, uint32_t receiver, char type, uint32_t message) {
 	message_pool_t *pool = (message_pool_t*) &poolArray[receiver]; 
 	pcb_t *pcb = pcb_get_with_pid(receiver);
@@ -55,6 +71,7 @@ int message_pool_send_from(uint32_t sender, uint32_t receiver, char type, uint32
 	}
 	if (i == NUMBER_OF_MESSAGES) {
 		console_print_string("\n>>>ERROR: sending to full inbox.\n");
+		scheduler_kill(sender,-1);
 		return -1;
 	}
 
