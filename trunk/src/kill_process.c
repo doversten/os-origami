@@ -1,11 +1,10 @@
 #include "api.h"
 #include "og_stdlib.h"
 
-void change_priority(){
+void kill_process(){
 
 	uint32_t pid, prio;
 	char buffer[16];
-
 
 	buffer[0] = '\0';
 	while(og_parse_int(buffer, &pid) || pid < 0) {
@@ -13,13 +12,7 @@ void change_priority(){
 		og_read_line(buffer, 16);
 	}
 
-	buffer[0] = 0;
-	while(og_parse_int(buffer, &prio) || prio < 0) {
-		og_print_string("Priority to change to:  ");
-		og_read_line(buffer, 16);
-	}
-
-	og_set_priority(pid, prio);
+	og_kill(pid);
 
 	og_exit(0);
 }

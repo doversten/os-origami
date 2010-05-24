@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-#define NUMBER_OF_PROGRAMS 16
+#define NUMBER_OF_PROGRAMS 17
 
 //User programs
 void malta_scroller();
@@ -19,6 +19,7 @@ void ring_actor();
 void folding();
 void top();
 void change_priority();
+void kill_process();
 void supervisor_test();
 void supervisor();
 void stupid();

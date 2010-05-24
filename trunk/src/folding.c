@@ -283,7 +283,7 @@ void folding() {
                                                
 	og_print_string("Startup\n");
 
-	og_spawn(programs_get_program("malta_scroller_loop"), 1, 1);
+	og_spawn(malta_scroller_loop, 1, 1);
 
 	og_spawn(programs_get_program("shell"), 0, 2);
 
