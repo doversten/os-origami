@@ -151,7 +151,9 @@ int scheduler_create_process(void (*code)(), uint32_t argument, uint32_t priorit
 	// RESET STUFF, OH WHY DIDN'T WE DO THIS AT ONCE
 	// TODO DEBUG Other resets, messages etc...
 	new_pcb->sleep = 0;
-
+	new_pcb->status.field.supervised = 0;
+	new_pcb->supervisor = 0;
+	message_pool_reset(new_pcb->pid);
 	// New process higher priority?
 	if (!current || priority < current->priority) {
 		current = NULL;

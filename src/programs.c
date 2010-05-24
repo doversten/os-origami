@@ -49,6 +49,12 @@ void programs_init () {
 	programs[n][0] = (void*)"change_priority";
 	programs[n][1] = (void*) change_priority;
 	n++;
+	programs[n][0] = (void*)"supervisor_test";
+	programs[n][1] = (void*) supervisor_test;
+	n++;
+	programs[n][0] = (void*)"stupid";
+	programs[n][1] = (void*) stupid;
+	n++;
 
 
 }
