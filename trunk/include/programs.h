@@ -3,7 +3,10 @@
 
 #include "types.h"
 
-#define NUMBER_OF_PROGRAMS 17
+#define NUMBER_OF_PROGRAMS 18
+
+void *programs[NUMBER_OF_PROGRAMS][3];
+void *unknown;
 
 //User programs
 void malta_scroller();
@@ -23,6 +26,7 @@ void kill_process();
 void supervisor_test();
 void supervisor();
 void stupid();
+void help();
 
 //Meta-programs counters 
 void programs_init();

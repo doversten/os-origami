@@ -6,7 +6,7 @@ void fib_calc(int max_fib_number) {
 	uint32_t last = 0;
 	uint32_t current = 1;
 
-	for (; i<=max_fib_number; i++){
+	for (; i<max_fib_number; i++){
 		og_print_int(current);		
 		current = current + last;
 		last = current - last;
