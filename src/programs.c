@@ -1,14 +1,16 @@
 #include "programs.h"
 #include "og_stdlib.h"
 
-void *programs[NUMBER_OF_PROGRAMS][3];
-void *unknown = "<unknown>";
+/*void *programs[NUMBER_OF_PROGRAMS][3];
+void *unknown = "<unknown>";*/
 
 void programs_init () {
 
 	int n = 0;
 
 	// TODO DEBUG THESE Should be golobaly declared, not on the stack, danger danger
+
+	unknown = "<unknown>";
 
 	programs[n][0] = (void*)"malta_scroller_loop";		// String representation of program
 	programs[n][1] = (void*) malta_scroller_loop;		// function pointer to program
@@ -77,6 +79,10 @@ void programs_init () {
 	programs[n][0] = (void*)"stupid";
 	programs[n][1] = (void*) stupid;
 	programs[n][2] = (void*) 0;	
+	n++;
+	programs[n][0] = (void*)"help";
+	programs[n][1] = (void*) help;
+	programs[n][2] = (void*) 1;	
 	n++;
 
 
