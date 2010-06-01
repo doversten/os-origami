@@ -1,5 +1,6 @@
 #include "pcb.h"
 #include "scheduler.h"
+#include "supervision.h"
 
 int supervise(uint32_t pid) {
 	pcb_t *pcb = pcb_get_with_pid(pid);

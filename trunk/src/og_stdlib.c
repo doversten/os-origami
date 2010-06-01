@@ -1,4 +1,5 @@
 #include "types.h"
+#include "og_stdlib.h"
 
 int og_parse_int(char* text, int* n) {
 	int i = 0;

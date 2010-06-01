@@ -1,5 +1,5 @@
 #include "types.h"
-#include "scheduler.h"
+#include "random.h"
 
 static uint32_t current_random;
 

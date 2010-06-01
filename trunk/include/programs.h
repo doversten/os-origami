@@ -5,7 +5,7 @@
 
 // Global table of programs
 
-#define NUMBER_OF_PROGRAMS 18
+#define NUMBER_OF_PROGRAMS 19
 
 void *programs[NUMBER_OF_PROGRAMS][3];
 void *unknown;
@@ -29,6 +29,7 @@ void supervisor_test();
 void supervisor();
 void stupid();
 void help();
+void credit();
 
 //Meta-programs counters 
 void programs_init();
