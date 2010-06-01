@@ -1,9 +1,5 @@
-#include "console.h"
-#include "scheduler.h"
-#include "pcb.h"
-#include "api.h"
 #include "programs.h"
-
+#include "api.h"
 #include "og_stdlib.h"
 
 void folding() {

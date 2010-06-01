@@ -79,7 +79,10 @@ void programs_init () {
 	programs[n][1] = (void*) help;
 	programs[n][2] = (void*) 1;	
 	n++;
-
+	programs[n][0] = (void*)"credit";
+	programs[n][1] = (void*) credit;
+	programs[n][2] = (void*) 1;	
+	n++;
 
 }
 
