@@ -14,7 +14,7 @@ void supervisor(){
 	while(1){
 		og_supervise(pid);
 		og_wait(&msg, 100000000);
-		og_print_string("Mitt barn dog, skapar nytt\n");
+		og_print_string("My child died, creating a new\n");
 		pid = og_spawn(stupid,0,prio+1);
 	}
 }

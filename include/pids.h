@@ -3,6 +3,8 @@
 
 #include "types.h"
 
+// Type containing a number of pids
+
 typedef struct pids_t
 {
 	int length;

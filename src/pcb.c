@@ -68,7 +68,6 @@ void pcb_init() {
 		pcbArray[i].status.field.empty = 1;
 		pcbArray[i].status.field.supervised = 0;
 		pcbArray[i].stack_start = (uint32_t) &stackArray[i].memory[PROGRAM_STACK_START];
-		//pcbArray[i].messages = &poolArray[i]; //Not really necessary since we don't use it
 	}
 }
 

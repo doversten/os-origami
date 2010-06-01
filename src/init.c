@@ -5,7 +5,6 @@
 #include "mips4kc.h"
 #include "scheduler.h"
 #include "malta_display.h"
-#include "folding.h" //Idle process
 #include "programs.h"
 
 static registers_t regs;
@@ -34,11 +33,8 @@ void kinit()
 
 	/* Initialise timer to interrupt in 100 ms (simulated time). */
 	kload_timer(100 * timer_msec);
-
-	/* Update the status register to enable timer interrupts. */
-	//kset_sr(0xFFBF00E8, 0x10008001);
 	
-	// Enable I/O Interrupt
+	// Enable I/O and Timer Interrupt
 	/* Below is an alternative way of setting the status register,
 	 * using the 'status_reg_t' type defined in 'mips4kc.h'.
 	 */
@@ -51,7 +47,7 @@ void kinit()
 
 	or.reg	= 0;
 	or.field.ie	 = 1;	 	// Enable interrupts
-	or.field.im	 = 0x84;	// Enable HW interrupt 0 and timer 84
+	or.field.im	 = 0x84;	// Enable HW interrupt 0 and timer
 	or.field.cu0	= 1;	 	// Coprocessor 0 usable
 
 	kset_sr(and.reg, or.reg);

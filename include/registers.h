@@ -3,6 +3,8 @@
 
 #include "types.h"
 
+// Type representing a set of registers
+
 typedef struct
 {
     uint32_t at_reg;    /* offset   0 */

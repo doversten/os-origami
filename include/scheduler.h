@@ -36,7 +36,6 @@ int scheduler_unblock(uint32_t pid);
 
 // Sleep processes
 int scheduler_sleep(int ticks);
-
 void scheduler_decrease_sleep();
 
 // Set priority
@@ -45,9 +44,7 @@ int scheduler_set_priority(uint32_t pid, uint32_t priority);
 // System clock
 uint32_t scheduler_system_clock();
 
-// Debug
-void scheduler_debug();
-
+// Get state of process
 int scheduler_get_state(uint32_t pid);
 
 #endif

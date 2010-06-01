@@ -7,6 +7,8 @@
 #include "message_pool.h"
 #include "pids.h"
 
+// PCB type
+
 typedef struct pcb_t
 {
 	uint32_t pid;
@@ -33,8 +35,6 @@ typedef struct pcb_t
 	uint32_t stack_start;
 	// Ticks to sleep the process
 	int sleep;
-	// Message pool
-	//message_pool_t *message_pool; //Not really necessary since we don't use it
 	// Process supervisor to notify on exit
 	uint32_t supervisor;
 	// Program name

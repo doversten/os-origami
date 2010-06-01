@@ -3,10 +3,12 @@
 
 #include "types.h"
 
+// Type for messages
+
 typedef struct message_t {
 	uint32_t sender;
 	uint32_t receiver;
-	char type; //'i' int, 'c' char, 'f' float, 'd' double, 0 for empty
+	char type; //0 for empty, 't' reserved for supervisor messages.
 	uint32_t message;
 } message_t;
 

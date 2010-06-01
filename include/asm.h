@@ -9,7 +9,7 @@
 static const int timer_usec = 67;
 static const int timer_msec = 67000;
 
-/* Functions provided by 'asm.S' */
+/* Functions provided by 'boot.S' */
 uint32_t kset_sr(uint32_t and_mask, uint32_t or_mask);
 uint32_t kget_sr();
 uint32_t kset_cause(uint32_t and_mask, uint32_t or_mask);
@@ -20,18 +20,13 @@ registers_t* kget_registers();
 void kdebug_magic_break();
 
 /*
- * kinit is called at startup, contains application-specific
- * system initialisation.
- * Applications should make sure that 'kset_registers' is
- * called, to that the exception handler can save registers.
+ * kinit is called at startup
+ * Initilize needed parts of the OS and start the folding process.
  */
 void kinit();
 
 /*
- * kexception is called when an exception occurs, after registers
- * have been saved. Use 'kget_registers' to access the saved
- * registers, and 'kset_registers' to update the entire register
- * set when 'kexception' returns (useful for task switching).
+ * kexception is called when an exception occurs
  */
 void kexception();
 

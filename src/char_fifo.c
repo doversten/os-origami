@@ -20,6 +20,7 @@ int char_fifo_put(char_fifo_t* fifo, uint8_t c)
 
 }
 
+/* Removes and returns a character at the start of the queue. */
 char char_fifo_get(char_fifo_t* fifo) {
 
 	char c;
