@@ -148,4 +148,4 @@ clean:
 	rm -f ${EXECUTABLES}	
 
 pack: clean
-	tar -origami_os.gz src/*.c include/*.h Makefile
+	tar -czvf origami_os.tar.gz src/*.c include/*.h scripts/*.* Makefile
