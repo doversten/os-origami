@@ -1,16 +1,13 @@
 #include "api.h"
 #include "og_stdlib.h"
 #define NUMBER_OF_PHILOSOPHERS 17
-//static int forks[NUMBER_OF_PHILOSOPHERS];
-//static uint32_t pids[NUMBER_OF_PHILOSOPHERS];
-//static int n_iterations_left[NUMBER_OF_PHILOSOPHERS];
 
 void say(int n, char *text) {
 	char buffer[256];
 	char number[64];
 	og_int_to_string(number, n);
 
-	og_string_concat(buffer, "Philosofer", " ");
+	og_string_concat(buffer, "Philosopher", " ");
 	og_string_concat(buffer, buffer, number);
 	og_string_concat(buffer, buffer, " ");
 	og_string_concat(buffer, buffer, text);
@@ -20,7 +17,6 @@ void say(int n, char *text) {
 }
 
 void philosopher(int arg) {
-	char buffer[256];
 	int n = arg;
 	int cycles;
 	message_t answer;
@@ -36,7 +32,7 @@ void philosopher(int arg) {
 	while(cycles > 0) {
 
 		say(n, "starts thinking");
-		og_sleep(og_random(1000, 2000));
+		og_sleep(og_random(3000, 5000));
 
 		say(n, "gets hungry");
 
@@ -64,7 +60,7 @@ void philosopher(int arg) {
 		}
 		//say(n, "picks up his right fork");
 		say(n, "+++STARTS+++ eating");
-		og_sleep(og_random(1000, 2000));
+		og_sleep(og_random(3000, 5000));
 		say(n, "---STOPS--- eating");
 		og_send_msg(waiter, 'd', n);
 		//say(n, "dropped his forks");

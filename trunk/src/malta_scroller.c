@@ -8,7 +8,6 @@ void malta_scroller_loop(int ask) {
 	int i = 0;
 
 	message_t update;
-	uint32_t pid;
 
 	og_string_concat(display, blank, standard);
 
@@ -18,14 +17,12 @@ void malta_scroller_loop(int ask) {
 		// Empty the message
 		update.type = 0;
 		if(!og_read_msg('s', &update, 1000)) {
-			//og_print_string("Receiving new string\n");
 			// Reset display string
 			i = 8;
 			og_string_concat(display, blank, "\0");
 			// Empty the message
 			update.type = 0;
 			while(!og_read_msg('c', &update, 1000)) {
-				//og_print_string("Got another char\n");
 				display[i] = (char) update.message;
 				i++;
 				// Might not be able to handle all messages if this got lower prio than sender and we get spammed

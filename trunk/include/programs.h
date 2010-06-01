@@ -3,6 +3,8 @@
 
 #include "types.h"
 
+// Global table of programs
+
 #define NUMBER_OF_PROGRAMS 18
 
 void *programs[NUMBER_OF_PROGRAMS][3];
@@ -31,6 +33,6 @@ void help();
 //Meta-programs counters 
 void programs_init();
 void *programs_get_program(char *programID);
-
+char *programs_get_name(void (*code) ());
 
 #endif

@@ -38,11 +38,11 @@ void ring(){
 	int num, first_pid, current_pid, prev_pid, i;
 
 	og_print_string("Set the number of proccesses in the ring: ");
-	og_read_line(&c_num,12);
+	og_read_line(c_num, 12);
 	while(og_parse_int(c_num,&num) || num < 1){
 		og_print_string("The number of proccesses in the ring must be a positive integer\n");
 		og_print_string("Set the number of proccesses in the ring: ");
-		og_read_line(&c_num,12);
+		og_read_line(c_num, 12);
 	}
 
 	first_pid = og_spawn(ring_actor,num,31);

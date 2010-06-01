@@ -3,6 +3,9 @@
 
 #include "types.h"
 
+// FIFO queue containing console input requests
+
+// Request type
 typedef struct input_req_t
 {
 	uint32_t requester;
@@ -11,6 +14,7 @@ typedef struct input_req_t
 	int length;
 } input_req_t;
 
+// Queue type
 typedef struct input_queue_t
 {
 	int length;

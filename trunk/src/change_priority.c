@@ -19,7 +19,9 @@ void change_priority(){
 		og_read_line(buffer, 16);
 	}
 
-	og_set_priority(pid, prio);
+	if(og_set_priority(pid, prio)) {
+		og_print_string("[No such process]\n");
+	}
 
 	og_exit(0);
 }

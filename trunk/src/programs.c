@@ -1,15 +1,10 @@
 #include "programs.h"
 #include "og_stdlib.h"
-
-/*void *programs[NUMBER_OF_PROGRAMS][3];
-void *unknown = "<unknown>";*/
+#include "console.h"
 
 void programs_init () {
 
 	int n = 0;
-
-	// TODO DEBUG THESE Should be golobaly declared, not on the stack, danger danger
-
 	unknown = "<unknown>";
 
 	programs[n][0] = (void*)"malta_scroller_loop";		// String representation of program
@@ -99,7 +94,7 @@ void *programs_get_program(char *programID){
 		}
 	}
 
-	return 0; //TODO:fix to return NULL
+	return 0;
 
 }
 
@@ -114,6 +109,6 @@ char *programs_get_name(void (*code) ()) {
 	}
 
 	console_print_string(">>>ERROR: Couldn't find process name\n");
-	return unknown; //TODO:fix to return NULL?
+	return unknown;
 
 }

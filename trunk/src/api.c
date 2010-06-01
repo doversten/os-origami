@@ -19,10 +19,6 @@ int og_print_int(int i) {
 }
 
 int og_read_line(char* text, int max) {
-	//while(og_syscall((uint32_t) console_read_line, (uint32_t) text, (uint32_t) max, 0)) {
-	//	og_sleep(100);
-	//}
-	//return 0;
 	return og_syscall((uint32_t) console_read_line, (uint32_t) text, (uint32_t) max, 0);
 }
 

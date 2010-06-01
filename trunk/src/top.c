@@ -10,10 +10,6 @@ void top() {
 	pids_t pids;
 	og_get_pids(&pids);
 
-	//og_print_string("NUMBER_OF_PROCESSES=");
-	//og_print_int(pids[0]);
-	//og_print_string("\n");
-
 	og_print_string("PID  Program Name        Priority    State\n");
 	og_print_string("----------------------------------------------\n");
   

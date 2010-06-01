@@ -38,8 +38,3 @@ void shell(){
 	og_print_string("Welcome to 'the shell', write 'quit' to exit the shell!\n\n");
 	shell_loop();
 }
-
-
-
-
-

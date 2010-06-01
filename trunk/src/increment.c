@@ -10,7 +10,6 @@ void inc_calc(int n) {
 	og_exit(0);
 }
 
-
 void inc() {
 	char input[12];
 	int max;

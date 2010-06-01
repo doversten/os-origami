@@ -1,6 +1,8 @@
 #ifndef __TYPES__
 #define __TYPES__
 
+// Easy to understand defintion of types
+
 #define NUMBER_OF_PROCESSES 16
 #define NULL 0
 

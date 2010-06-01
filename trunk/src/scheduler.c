@@ -6,15 +6,13 @@
 #include "pcb_queue.h"
 #include "scheduler.h"
 #include "message_pool.h"
+#include "programs.h"
+#include "malta_display.h"
 
 static uint32_t system_clock = 0;
 static pcb_t *current = NULL;
 static pcb_queue_t pcb_ready;
 static pcb_queue_t pcb_block;
-
-void scheduler_debug() {
-	pcb_queue_print(&pcb_block);
-}
 
 uint32_t scheduler_system_clock() {
 	return system_clock;
@@ -37,6 +35,11 @@ int scheduler_get_state(uint32_t pid) {
 }
 
 int scheduler_set_priority(uint32_t pid, uint32_t priority) {
+
+	if (pid >= NUMBER_OF_PROCESSES) {
+		return -1;		//Failcode
+	}
+
 	pcb_t	*pcb = pcb_get_with_pid(pid);
 
 	if (!pcb || pcb->status.field.empty) {
@@ -70,8 +73,16 @@ int scheduler_kill(uint32_t pid, uint32_t exit_code) {
 
 	pcb_t *pot_supervisor;
 
+	if (pid >= NUMBER_OF_PROCESSES) {
+		return -1;		//Failcode
+	}
+
 	// Get pcb
 	pcb_t *zombie_pcb = pcb_get_with_pid(pid);
+
+	if (!zombie_pcb) {
+		return -1;		// Failcode
+	}
 
 	if (zombie_pcb->status.field.empty) {
 		return -1;		// Failcode
@@ -149,7 +160,6 @@ int scheduler_create_process(void (*code)(), uint32_t argument, uint32_t priorit
 	pcb_queue_add(&pcb_ready, new_pcb);
 
 	// RESET STUFF, OH WHY DIDN'T WE DO THIS AT ONCE
-	// TODO DEBUG Other resets, messages etc...
 	new_pcb->sleep = 0;
 	new_pcb->status.field.supervised = 0;
 	new_pcb->supervisor = 0;
@@ -166,10 +176,6 @@ int scheduler_create_process(void (*code)(), uint32_t argument, uint32_t priorit
 
 int scheduler_block(uint32_t pid) {
 
-	//console_print_string("<scheduler> blocking ");
-	//console_print_int(pid);
-	//console_print_string("\n");
-
 	pcb_t *pcb =pcb_get_with_pid(pid);
 
 	if (!pcb || pcb->status.field.empty) {
@@ -178,9 +184,6 @@ int scheduler_block(uint32_t pid) {
 
 	pcb_queue_remove(&pcb_ready, pcb->pid);
 	pcb_queue_add(&pcb_block, pcb);
-
-	//current = NULL;
-	//scheduler_schedule();
 
 	if (current == pcb) {
 		current = NULL;
@@ -193,10 +196,6 @@ int scheduler_block(uint32_t pid) {
 
 int scheduler_unblock(uint32_t pid) {
 
-	//console_print_string("<scheduler> unblocking ");
-	//console_print_int(pid);
-	//console_print_string("\n");
-
 	pcb_t *pcb = pcb_get_with_pid(pid);
 
 	if (!pcb || pcb->status.field.empty) {
@@ -205,9 +204,6 @@ int scheduler_unblock(uint32_t pid) {
 
 	pcb_queue_remove(&pcb_block, pcb->pid);
 	pcb_queue_add(&pcb_ready, pcb);
-
-	//current = NULL;
-	//scheduler_schedule();
 
 	if (pcb->priority < current->priority) {
 		current = NULL;
@@ -225,11 +221,6 @@ int scheduler_sleep(int ticks) {
 
 	current->sleep = ticks;
 	return scheduler_block(current->pid);
-
-	// DEBUG TODO
-	/*int temp = scheduler_block(current->pid);
-	pcb_queue_print(&pcb_block);
-	return temp;*/
 
 }
 
@@ -258,7 +249,9 @@ void scheduler_schedule() {
 		current = pcb_queue_get_highest_priority(&pcb_ready);
 	} 
 	if(!current) {
-	// If there is no process in the ready queue, do: ###TODO?### nothing...
+		// No process to schedule, why did you kill folding?
+		malta_display_string("ErrNoPrc");
+		while(1){}
 	}else {
 	// If there is a current process, choose the next process in the 'chain'.
 		current = current->next;

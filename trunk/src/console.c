@@ -132,6 +132,4 @@ void console_handle_interrupt() {
 		}
 	}
 
-	//console->ier.field.etbei = 0;
-	//kset_cause(~0x1000, 0);
 }
